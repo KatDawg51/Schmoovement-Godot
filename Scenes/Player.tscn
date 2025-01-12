@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://bln0w7toljkom"]
+[gd_scene load_steps=17 format=3 uid="uid://bln0w7toljkom"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/player.gd" id="1_5ls5g"]
+[ext_resource type="Shader" path="res://Scripts/Shaders/Player.gdshader" id="2_yu50t"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_r6n1w"]
 
@@ -28,8 +29,15 @@ uv1_triplanar = true
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_aomg6"]
 margin = 0.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7uceq"]
+render_priority = 0
+shader = ExtResource("2_yu50t")
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/shadow_thickness = 1.8
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ov2qv"]
-shading_mode = 0
+next_pass = SubResource("ShaderMaterial_7uceq")
+diffuse_mode = 3
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rpuj4"]
 emission_shape_offset = Vector3(0, 0.6, 0)
@@ -39,7 +47,7 @@ emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 1.0
 emission_ring_radius = 1.0
 emission_ring_inner_radius = 1.0
-inherit_velocity_ratio = 0.2
+inherit_velocity_ratio = 0.3
 gravity = Vector3(0, 0, 0)
 turbulence_noise_strength = 15.95
 
