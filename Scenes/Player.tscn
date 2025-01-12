@@ -1,7 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://bln0w7toljkom"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/player.gd" id="1_5ls5g"]
-[ext_resource type="Script" path="res://Scripts/PlayerScripts/inventory.gd" id="4_dv5t4"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_r6n1w"]
 
@@ -28,6 +27,8 @@ uv1_triplanar = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_aomg6"]
 margin = 0.0
+
+[sub_resource type="GDScript" id="GDScript_em648"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hij18"]
 margin = 0.02
@@ -70,16 +71,15 @@ _data = {
 "Vault": SubResource("Animation_qp4bt")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "cam", "look_cast", "inventory", "cam_rig", "spring_arm", "ground_normal_ray", "vault_cast", "collision", "anim_plr")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "cam", "look_cast", "cam_rig", "spring_arm", "ground_normal_ray", "vault_cast", "collision", "anim_plr")]
 collision_layer = 2
 collision_mask = 3
 floor_constant_speed = true
-floor_max_angle = 1.39626
+floor_max_angle = 1.309
 script = ExtResource("1_5ls5g")
 head = NodePath("Head")
 cam = NodePath("Head/CamRig/SpringArm/Cam")
 look_cast = NodePath("Head/CamRig/LookCast")
-inventory = NodePath("Head/CamRig/Inventory")
 cam_rig = NodePath("Head/CamRig")
 spring_arm = NodePath("Head/CamRig/SpringArm")
 ground_normal_ray = NodePath("GroundNormalRay")
@@ -90,25 +90,27 @@ walk_speed = 10.0
 sprint_speed = 10.0
 jump_power = 8.0
 jump_boost = 1.2
-vault_height = 6.0
+vault_height = 5.0
+vault_boost = 5.0
+vault_decay = 3.0
+vault_growth = 5.0
 ground_acel = 50.0
 air_control = 20.0
 air_speed = 8.0
 fall_speed = 40.0
-slide_control = 5.0
-slide_speed = 2.0
 gravity = 25.0
 jump_cool = 0.2
 jump_buff_amount = 0.1
 coyote_amount = 0.5
 sens = 0.03
 bob_freq = 2.2
-bob_amp = 1.0
+bob_amp = 1.5
 base_FOV = 90.0
 FOV_change = 2.0
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+visible = false
 mesh = SubResource("CapsuleMesh_r6n1w")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_uy6ko")
@@ -124,16 +126,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
 [node name="LookCast" type="RayCast3D" parent="Head/CamRig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0995743, 0)
-visible = false
 target_position = Vector3(0, 0, -2)
 
 [node name="Inventory" type="Node3D" parent="Head/CamRig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.25, -0.65)
-script = ExtResource("4_dv5t4")
+script = SubResource("GDScript_em648")
 
 [node name="SpringArm" type="SpringArm3D" parent="Head/CamRig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 spring_length = 0.0
+margin = 0.0
 
 [node name="Cam" type="Camera3D" parent="Head/CamRig/SpringArm"]
 transform = Transform3D(1, 0, 0, 0, 1, 7.45058e-09, 0, -7.45058e-09, 1, 0, 0, 0)

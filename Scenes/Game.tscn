@@ -52,7 +52,6 @@ ssr_max_steps = 80
 ssao_enabled = true
 ssao_intensity = 3.0
 ssil_enabled = true
-sdfgi_enabled = true
 sdfgi_use_occlusion = true
 sdfgi_energy = 2.0
 glow_enabled = true
