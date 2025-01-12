@@ -113,7 +113,7 @@ func _physics_process(delta:float) -> void:
 
 	#Update Speed GUI
 	#speed_gui.text = str(round(Vector2(velocity.x, velocity.z).length()))
-	if round(Vector2(velocity.x, velocity.z).length()) >= 10:
+	if round(Vector2(velocity.x, velocity.z).length()) >= walk_speed:
 		particles.emitting = true
 	else:
 		particles.emitting = false

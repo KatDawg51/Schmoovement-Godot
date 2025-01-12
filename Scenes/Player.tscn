@@ -39,7 +39,7 @@ emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 1.0
 emission_ring_radius = 1.0
 emission_ring_inner_radius = 1.0
-inherit_velocity_ratio = 0.4
+inherit_velocity_ratio = 0.1
 gravity = Vector3(0, 0, 0)
 turbulence_noise_strength = 15.95
 
@@ -129,7 +129,7 @@ FOV_change = 2.0
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-layers = 2
+visible = false
 mesh = SubResource("CapsuleMesh_r6n1w")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_uy6ko")
@@ -153,7 +153,6 @@ margin = 0.0
 
 [node name="Cam" type="Camera3D" parent="Head/CamRig/SpringArm"]
 transform = Transform3D(1, 0, 0, 0, 1, 7.45058e-09, 0, -7.45058e-09, 1, 0, 0, 0)
-cull_mask = 1048573
 doppler_tracking = 2
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="Head/CamRig/SpringArm/Cam"]

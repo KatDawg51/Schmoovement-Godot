@@ -98,5 +98,9 @@ switch={
 
 [physics]
 
-common/physics_ticks_per_second=165
+common/physics_ticks_per_second=120
 common/physics_interpolation=true
+
+[rendering]
+
+anti_aliasing/quality/screen_space_aa=1
