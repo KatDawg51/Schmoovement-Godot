@@ -5,7 +5,7 @@
 I made this little movement system based on: Untitled Tag Game (Roblox), and Bad Business (Roblox).
 
 It has:
-1. Robuts Vaulting System
+1. Robust Vaulting System
 2. Acceleration and Deceleration
 3. 3D GPU Particle Speed Streaks 
 4. Test Map
