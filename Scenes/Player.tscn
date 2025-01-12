@@ -129,7 +129,7 @@ FOV_change = 2.0
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-visible = false
+layers = 2
 mesh = SubResource("CapsuleMesh_r6n1w")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_uy6ko")
@@ -145,7 +145,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
 [node name="LookCast" type="RayCast3D" parent="Head/CamRig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0995743, 0)
-visible = false
 target_position = Vector3(0, 0, -2)
 
 [node name="SpringArm" type="SpringArm3D" parent="Head/CamRig"]
@@ -154,6 +153,7 @@ margin = 0.0
 
 [node name="Cam" type="Camera3D" parent="Head/CamRig/SpringArm"]
 transform = Transform3D(1, 0, 0, 0, 1, 7.45058e-09, 0, -7.45058e-09, 1, 0, 0, 0)
+cull_mask = 1048573
 doppler_tracking = 2
 
 [node name="GPUParticles3D" type="GPUParticles3D" parent="Head/CamRig/SpringArm/Cam"]
