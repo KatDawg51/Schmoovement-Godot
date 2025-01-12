@@ -33,6 +33,3 @@ https://mega.nz/file/6aZR2ZjY#sDnhSXXcCtRWns6O7cFowkrcupDq2OaRNrni0rXAr6I
 
 **Google Drive Link (Needs Account):**
 https://drive.google.com/file/d/16kShbBMf0SktkK92lA-Hd3SrjDy8VMFX/view
-
-
-Note: As of now, the code isn't very clean, and variables are ordered and named incorrectly. For example, the jump buffering and cooldown exports apply to vaults as well.
