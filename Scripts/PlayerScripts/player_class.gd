@@ -11,6 +11,7 @@ class_name Player extends CharacterBody3D
 @export var vault_cast:ShapeCast3D
 @export var collision:CollisionShape3D
 @export var anim_plr:AnimationPlayer
+@export var particles:GPUParticles3D
 #Timers
 @onready var jump_buff:SceneTreeTimer
 @onready var coyote_timer:SceneTreeTimer
@@ -108,13 +109,20 @@ func _physics_process(delta:float) -> void:
 	FOV(delta)
 	headbob(delta)
 	update(delta)
-	up(delta)
+	vault_jump(delta)
 
 	#Update Speed GUI
-	speed_gui.text = str(round(Vector2(velocity.x, velocity.z).length()))
+	#speed_gui.text = str(round(Vector2(velocity.x, velocity.z).length()))
+	if particles:
+		particles.amount = velocity.length() * 2
+		if is_zero_approx(velocity.length()):
+			particles.emitting = false
+		else:
+			particles.emitting = true
+		speed_gui.text = str(round(particles.amount))
 
 #Jump Action
-func up(delta:float):
+func vault_jump(delta:float):
 	vault_momentum = move_toward(vault_momentum, 0, vault_decay * delta)
 	boost = dir * vault_momentum
 	#Detection

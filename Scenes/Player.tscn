@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bln0w7toljkom"]
+[gd_scene load_steps=15 format=3 uid="uid://bln0w7toljkom"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/player.gd" id="1_5ls5g"]
 
@@ -28,7 +28,24 @@ uv1_triplanar = true
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_aomg6"]
 margin = 0.0
 
-[sub_resource type="GDScript" id="GDScript_em648"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ov2qv"]
+shading_mode = 0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rpuj4"]
+emission_shape_offset = Vector3(0, 0, -1)
+emission_shape_scale = Vector3(1, 1, 0)
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.5
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+turbulence_noise_strength = 15.95
+
+[sub_resource type="SphereMesh" id="SphereMesh_x0qai"]
+radius = 0.04
+height = 0.08
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hij18"]
 margin = 0.02
@@ -71,7 +88,7 @@ _data = {
 "Vault": SubResource("Animation_qp4bt")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "cam", "look_cast", "cam_rig", "spring_arm", "ground_normal_ray", "vault_cast", "collision", "anim_plr")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "cam", "look_cast", "cam_rig", "spring_arm", "ground_normal_ray", "vault_cast", "collision", "anim_plr", "particles")]
 collision_layer = 2
 collision_mask = 3
 floor_constant_speed = true
@@ -86,10 +103,11 @@ ground_normal_ray = NodePath("GroundNormalRay")
 vault_cast = NodePath("VaultCast")
 collision = NodePath("Collision")
 anim_plr = NodePath("AnimationPlayer")
+particles = NodePath("Head/CamRig/SpringArm/Cam/GPUParticles3D")
 walk_speed = 10.0
 sprint_speed = 10.0
 jump_power = 8.0
-jump_boost = 1.2
+jump_boost = 1.5
 vault_height = 5.0
 vault_boost = 5.0
 vault_decay = 3.0
@@ -104,13 +122,12 @@ jump_buff_amount = 0.1
 coyote_amount = 0.5
 sens = 0.03
 bob_freq = 2.2
-bob_amp = 1.5
+bob_amp = 1.0
 base_FOV = 90.0
 FOV_change = 2.0
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-visible = false
 mesh = SubResource("CapsuleMesh_r6n1w")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_uy6ko")
@@ -128,18 +145,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0995743, 0)
 target_position = Vector3(0, 0, -2)
 
-[node name="Inventory" type="Node3D" parent="Head/CamRig"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.25, -0.65)
-script = SubResource("GDScript_em648")
-
 [node name="SpringArm" type="SpringArm3D" parent="Head/CamRig"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 spring_length = 0.0
 margin = 0.0
 
 [node name="Cam" type="Camera3D" parent="Head/CamRig/SpringArm"]
 transform = Transform3D(1, 0, 0, 0, 1, 7.45058e-09, 0, -7.45058e-09, 1, 0, 0, 0)
 doppler_tracking = 2
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Head/CamRig/SpringArm/Cam"]
+transform = Transform3D(1, 0, 0, 0, 1, -7.45058e-09, 0, 7.45058e-09, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_ov2qv")
+amount = 20
+lifetime = 0.2
+process_material = SubResource("ParticleProcessMaterial_rpuj4")
+draw_pass_1 = SubResource("SphereMesh_x0qai")
 
 [node name="Buffer" type="Timer" parent="."]
 wait_time = 0.25
