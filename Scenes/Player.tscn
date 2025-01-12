@@ -32,14 +32,14 @@ margin = 0.0
 shading_mode = 0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rpuj4"]
-emission_shape_offset = Vector3(0, 0.5, 0)
+emission_shape_offset = Vector3(0, 0.6, 0)
 emission_shape_scale = Vector3(1, 0, 1)
 emission_shape = 6
 emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 1.0
 emission_ring_radius = 1.0
 emission_ring_inner_radius = 1.0
-inherit_velocity_ratio = 0.1
+inherit_velocity_ratio = 0.2
 gravity = Vector3(0, 0, 0)
 turbulence_noise_strength = 15.95
 
