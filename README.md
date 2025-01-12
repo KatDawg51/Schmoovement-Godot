@@ -1,7 +1,7 @@
-## Schmoovement-Godot
+# Schmoovement-Godot
 
 
-# Copy and Pasted from: https://forum.godotengine.org/
+## Copy and Pasted from: https://forum.godotengine.org/
 
 I made this little movement system based on: Untitled Tag Game (Roblox), and Bad Business (Roblox).
 
