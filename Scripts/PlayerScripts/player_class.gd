@@ -29,12 +29,12 @@ class_name Player extends CharacterBody3D
 @export_category("Vault")
 #Vault Vars
 var vault_momentum:float
-@export var vault_height:float
-@export var vault_boost:float
-@export var vault_decay:float
-@export var vault_growth:float
-@export var vault_boost_stack:bool
-@export var vault_clip_time:float
+@export var vault_height:float = 8
+@export var vault_boost:float = 6
+@export var vault_decay:float = 2
+@export var vault_growth:float = 4
+@export var vault_boost_stack:bool = false
+@export var vault_clip_time:float = 0.14
 @export_category("Physics")
 #Ground Physics
 @export var ground_acel:float = 30
