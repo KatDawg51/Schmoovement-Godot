@@ -22,18 +22,22 @@ class_name Player extends CharacterBody3D
 
 ##Stats
 @export_category("Speed")
-@export var walk_speed:float
-@export var sprint_speed:float
-@export_category("Jump")
-@export var jump_power:float
-@export var jump_boost:float
-@export_category("Vault")
-@export var vault_height:float = 8
-@export var vault_boost:float = 6
-@export var vault_decay:float = 2
-@export var vault_growth:float = 4
+@export var ground_speed:float = 10
+@export_category("Jump and Vault")
+@export_group("Jump")
+@export var base_jump_power:float = 8
+@export var max_jump_power:float = 12
+@export var jump_speed_multi:float = 1.2
+@export_group("Vault")
+@export var vault_power:float = 6
+@export var vault_power_growth:float = 4
+@export var vault_boost:float = 4
+@export var vault_boost_decay:float = 2
+@export var vault_clip_time:float = 0.15
 @export var vault_boost_stack:bool = false
-@export var vault_clip_time:float = 0.14
+@export_group("Both")
+@export var jump_vault_cool:float = 0.2
+@export var jump_vault_buff_amount:float = 0.1
 @export_category("Physics")
 #Ground Physics
 @export var ground_acel:float = 30
@@ -44,8 +48,6 @@ class_name Player extends CharacterBody3D
 @export var fall_speed:float = 30
 @export var gravity:float = ProjectSettings.get_setting("physics/3d/default_gravity")
 @export_category("Timers")
-@export var jump_cool:float
-@export var jump_buff_amount:float
 @export var coyote_amount:float
 @export_category("Camera")
 @export var sens := 0.1
@@ -113,7 +115,7 @@ func _physics_process(delta:float) -> void:
 
 	#Update Speed GUI
 	#speed_gui.text = str(round(Vector2(velocity.x, velocity.z).length()))
-	if round(Vector2(velocity.x, velocity.z).length()) >= walk_speed:
+	if round(Vector2(velocity.x, velocity.z).length()) >= ground_speed:
 		particles.emitting = true
 	else:
 		particles.emitting = false
@@ -122,12 +124,12 @@ func _physics_process(delta:float) -> void:
 #Jump Action
 func vault_jump(delta:float):
 	#Gegagedigedagedago
-	vault_momentum = move_toward(vault_momentum, 0, vault_decay * delta)
+	vault_momentum = move_toward(vault_momentum, 0, vault_boost_decay * delta)
 	#gigigtyttrgrgrgggg
 	boost = dir * vault_momentum
 	#Detection
 	if Input.is_action_just_pressed("jump"):
-		jump_buff = get_tree().create_timer(jump_buff_amount)
+		jump_buff = get_tree().create_timer(jump_vault_buff_amount)
 
 	#Jump or Vault
 	if jump_buff.time_left > 0:
@@ -137,7 +139,7 @@ func vault_jump(delta:float):
 			if vault_normal.dot(Vector3.UP) > 0:
 				#Vars Idek
 				var vault_diff := vault_cast.get_collision_point(0) - global_position
-				var height:float = vault_height + vault_diff.y * vault_growth
+				var height:float = vault_power + vault_diff.y * vault_power_growth
 
 				#Vertical Boost
 				speed.y = height
@@ -150,7 +152,7 @@ func vault_jump(delta:float):
 
 				#Reset Buffer and Add Cooldown
 				jump_buff = get_tree().create_timer(0)
-				jump_debounce = get_tree().create_timer(jump_cool)
+				jump_debounce = get_tree().create_timer(jump_vault_cool)
 
 				#Handle Conllisions
 				if dir.dot(Vector3(vault_diff.x, 0 , vault_diff.z).normalized()) > 0:
@@ -164,19 +166,19 @@ func vault_jump(delta:float):
 			#Jump If Shapecast Is False Detecting
 			elif is_on_floor():
 				if jump_debounce.time_left <= 0:
-					var real_power:float = clamp(jump_power * velocity.length(), jump_power, jump_power*1.2)
-					speed = Vector3(speed.x * jump_boost, max(0, get_real_velocity().y) + real_power, speed.z * jump_boost)
+					var real_power:float = clamp(base_jump_power * velocity.length() / (ground_speed/2), base_jump_power, max_jump_power)
+					speed = Vector3(speed.x * jump_speed_multi, max(0, get_real_velocity().y) + real_power, speed.z * jump_speed_multi)
 					coyote = false
 					jump_buff = get_tree().create_timer(0)
-					jump_debounce = get_tree().create_timer(jump_cool)
+					jump_debounce = get_tree().create_timer(jump_vault_cool)
 		#Jumping
 		elif is_on_floor() or (coyote and coyote_timer.time_left > 0):
 			if jump_debounce.time_left <= 0:
-				var real_power:float = clamp(jump_power * velocity.length(), jump_power, jump_power*1.2)
-				speed = Vector3(speed.x * jump_boost, max(0, get_real_velocity().y) + real_power, speed.z * jump_boost)
+				var real_power:float = clamp(base_jump_power * velocity.length() / (ground_speed/2), base_jump_power, max_jump_power)
+				speed = Vector3(speed.x * jump_speed_multi, max(0, get_real_velocity().y) + real_power, speed.z * jump_speed_multi)
 				coyote = false
 				jump_buff = get_tree().create_timer(0)
-				jump_debounce = get_tree().create_timer(jump_cool)
+				jump_debounce = get_tree().create_timer(jump_vault_cool)
 
 func set_input_dirs() -> void:
 	input_dir = Input.get_vector("left", "right", "up", "down").normalized()
@@ -184,7 +186,7 @@ func set_input_dirs() -> void:
 	ground_dir = transform.basis * Vector3(input_dir.x if input_dir.y < 0 else input_dir.x * 0.8 , 0, input_dir.y if input_dir.y < 0 else input_dir.y * 0.8)
 
 func FOV(delta:float) -> void:
-	clamped_velocity = min(velocity.length(), sprint_speed*2)
+	clamped_velocity = min(velocity.length(), ground_speed*2)
 	var target_fov = base_FOV + FOV_change * clamped_velocity
 	cam.fov = lerp(cam.fov, target_fov, delta * 8.0)
 
@@ -238,7 +240,7 @@ func update(delta:float) -> void:
 		#Walking
 		states.ground:
 			var moving = true if dir or not is_equal_approx(speed.length(), 0) or not dir.dot(get_real_velocity()) <= 0 else false
-			speed = speed.move_toward(ground_dir * walk_speed, (ground_acel if moving else ground_decel) * delta)
+			speed = speed.move_toward(ground_dir * ground_speed, (ground_acel if moving else ground_decel) * delta)
 			#Coyote Time Reset
 			if speed.y > 0:
 				coyote = false

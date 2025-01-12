@@ -50,7 +50,7 @@ volumetric_fog_sky_affect = 0.5
 
 [sub_resource type="PrismMesh" id="PrismMesh_2ow7u"]
 left_to_right = 0.0
-size = Vector3(5, 3, 50)
+size = Vector3(5, 3, 6)
 
 [node name="Game" type="Node"]
 script = ExtResource("1_hyi2u")
@@ -155,16 +155,10 @@ use_collision = true
 size = Vector3(7, 6.15308, 0.001)
 material = ExtResource("2_hybli")
 
-[node name="CSGBox3D13" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(-1, 6.18324e-08, -6.18021e-08, 0, 0.706934, 0.70728, 8.74228e-08, 0.70728, -0.706934, -2.66431, 1.61592, 13.5448)
-use_collision = true
-size = Vector3(6.32861, 6.15308, 1)
-material = ExtResource("2_hybli")
-
 [node name="CSGBox3D18" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(1, -6.18324e-08, 1.49225e-07, 1.49225e-07, -4.37114e-08, -1, 6.18324e-08, 1, -4.37114e-08, -2.60046, 3.5791, 18.4459)
+transform = Transform3D(1, -6.18324e-08, 1.49225e-07, 1.49225e-07, -4.37114e-08, -1, 6.18324e-08, 1, -4.37114e-08, -2, 4, 23)
 use_collision = true
-size = Vector3(6.32861, 6.15308, 1)
+size = Vector3(6, 16, 1)
 material = ExtResource("2_hybli")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="World3D/Map"]
@@ -173,7 +167,13 @@ light_energy = 31.08
 spot_range = 9.565
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="World3D/Map"]
-transform = Transform3D(-0.00198376, -0.000283272, -0.999998, -0.00173881, 0.999998, -0.000279825, 0.999997, 0.00173825, -0.00198425, 0.00260233, 2.00089, -27.5244)
+transform = Transform3D(-0.00198376, -0.000283272, -0.999998, -0.00173881, 0.999998, -0.000279825, 0.999997, 0.00173825, -0.00198425, 0.00266345, 2.00094, -27.5552)
+use_collision = true
+mesh = SubResource("PrismMesh_2ow7u")
+material = ExtResource("2_hybli")
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="World3D/Map"]
+transform = Transform3D(0.00198367, -0.000373919, 0.999998, 0.00173881, 1.32, 0.000279821, -0.999997, 0.00229449, 0.00198416, -2.00114, 2.53113, 12.5009)
 use_collision = true
 mesh = SubResource("PrismMesh_2ow7u")
 material = ExtResource("2_hybli")

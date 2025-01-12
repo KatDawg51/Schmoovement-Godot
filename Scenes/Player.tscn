@@ -104,22 +104,11 @@ vault_cast = NodePath("VaultCast")
 collision = NodePath("Collision")
 anim_plr = NodePath("AnimationPlayer")
 particles = NodePath("Head/CamRig/SpringArm/Cam/GPUParticles3D")
-walk_speed = 10.0
-sprint_speed = 10.0
-jump_power = 8.0
-jump_boost = 1.5
-vault_height = 5.0
-vault_boost = 4.0
-vault_decay = 3.0
-vault_growth = 5.0
-vault_clip_time = 0.2
 ground_acel = 50.0
 air_control = 20.0
 air_speed = 8.0
 fall_speed = 40.0
 gravity = 25.0
-jump_cool = 0.2
-jump_buff_amount = 0.1
 coyote_amount = 0.5
 sens = 0.03
 bob_freq = 2.2
@@ -145,6 +134,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
 [node name="LookCast" type="RayCast3D" parent="Head/CamRig"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0995743, 0)
+visible = false
 target_position = Vector3(0, 0, -2)
 
 [node name="SpringArm" type="SpringArm3D" parent="Head/CamRig"]
