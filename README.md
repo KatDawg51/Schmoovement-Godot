@@ -22,4 +22,5 @@ If you end up adding nice features/fixes to your version, it would be nice if yo
 
 This is my first repository, so if you find any issues DM me or make a issue report, or whatever github calls it!
 
+Google account required to view example, sorry bout that :p
 https://drive.google.com/file/d/16kShbBMf0SktkK92lA-Hd3SrjDy8VMFX/view?usp=sharing
