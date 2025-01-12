@@ -113,42 +113,55 @@ func _physics_process(delta:float) -> void:
 
 	#Update Speed GUI
 	#speed_gui.text = str(round(Vector2(velocity.x, velocity.z).length()))
-	if particles:
-		particles.amount = velocity.length() * 2
-		if is_zero_approx(velocity.length()):
-			particles.emitting = false
-		else:
-			particles.emitting = true
-		speed_gui.text = str(round(particles.amount))
+	if round(Vector2(velocity.x, velocity.z).length()) >= 10:
+		particles.emitting = true
+	else:
+		particles.emitting = false
+	speed_gui.text = str(round(Vector2(velocity.x, velocity.z).length()))
 
 #Jump Action
 func vault_jump(delta:float):
+	#Gegagedigedagedago
 	vault_momentum = move_toward(vault_momentum, 0, vault_decay * delta)
+	#gigigtyttrgrgrgggg
 	boost = dir * vault_momentum
 	#Detection
 	if Input.is_action_just_pressed("jump"):
 		jump_buff = get_tree().create_timer(jump_buff_amount)
+
+	#Jump or Vault
 	if jump_buff.time_left > 0:
 		#Vaulting
 		if vault_cast.is_colliding():
 			var vault_normal := vault_cast.get_collision_normal(0)
 			if vault_normal.dot(Vector3.UP) > 0:
-				anim_plr.play("Vault")
-				var vault_length:float = max(0, vault_cast.get_collision_point(0).y - global_position.y)
-				var height:float = vault_height + vault_length * vault_growth
+				#Vars Idek
+				var vault_diff := vault_cast.get_collision_point(0) - global_position
+				var height:float = vault_height + vault_diff.y * vault_growth
+
+				#Vertical Boost
 				speed.y = height
+
+				#Stacking?
 				if vault_boost_stack:
 					vault_momentum += vault_boost
 				else:
 					vault_momentum = vault_boost
+
+				#Reset Buffer and Add Cooldown
 				jump_buff = get_tree().create_timer(0)
 				jump_debounce = get_tree().create_timer(jump_cool)
+
 				#Handle Conllisions
-				collision.scale = Vector3(0.5, 0.5, 0.5)
-				collision.disabled = true
-				await get_tree().create_timer(vault_clip_time).timeout
-				collision.disabled = false
-				collision.scale = Vector3(1, 1, 1)
+				if dir.dot(Vector3(vault_diff.x, 0 , vault_diff.z).normalized()) > 0:
+					anim_plr.play("Vault")
+					collision.scale = Vector3(0.5, 0.5, 0.5)
+					collision.disabled = true
+					await get_tree().create_timer(vault_clip_time).timeout
+					collision.disabled = false
+					collision.scale = Vector3(1, 1, 1)
+
+			#Jump If Shapecast Is False Detecting
 			elif is_on_floor():
 				if jump_debounce.time_left <= 0:
 					var real_power:float = clamp(jump_power * velocity.length(), jump_power, jump_power*1.2)
@@ -238,3 +251,5 @@ func update(delta:float) -> void:
 			#Air Strafing
 			speed.x = move_toward(speed.x, dir.x * air_speed, air_control * delta)
 			speed.z = move_toward(speed.z, dir.z * air_speed, air_control * delta)
+
+#https://www.youtube.com/watch?v=sidnx5kXn1k
