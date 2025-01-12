@@ -1,33 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://db2h3t17k37pe"]
+[gd_scene load_steps=9 format=3 uid="uid://db2h3t17k37pe"]
 
 [ext_resource type="Script" path="res://Scripts/Game/game.gd" id="1_hyi2u"]
-[ext_resource type="Texture2D" uid="uid://bbu1rjbtv2tii" path="res://Materials/Vector/texture_01.svg" id="2_62ogs"]
-[ext_resource type="Texture2D" uid="uid://c7324odabs1sm" path="res://Materials/PNG/Dark/texture_01.png" id="3_k01vx"]
+[ext_resource type="Material" uid="uid://lc1lupq3re2x" path="res://Materials/Metal.tres" id="2_hybli"]
 [ext_resource type="Texture2D" uid="uid://bybj33yspagqr" path="res://Materials/winter_lake_01_4k.exr" id="4_63omn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u1ld4"]
 font_size = 100
 outline_size = 10
 outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q043c"]
-albedo_texture = ExtResource("2_62ogs")
-metallic = 0.1
-roughness = 0.5
-rim = 0.0
-rim_tint = 0.39
-rim_texture = ExtResource("3_k01vx")
-clearcoat_enabled = true
-clearcoat = 0.2
-clearcoat_roughness = 0.25
-anisotropy_enabled = true
-anisotropy = 0.1
-heightmap_scale = 13.758
-heightmap_texture = ExtResource("2_62ogs")
-backlight = Color(9.19297e-06, 0.2049, 0.597158, 1)
-uv1_scale = Vector3(0.5, 0.5, 0.5)
-uv1_triplanar = true
-texture_filter = 5
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7hap0"]
 panorama = ExtResource("4_63omn")
@@ -63,10 +43,14 @@ fog_depth_curve = 7.46426
 fog_depth_begin = -1773.0
 fog_depth_end = 2520.0
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.02
+volumetric_fog_density = 0.01
 volumetric_fog_length = 30.0
 volumetric_fog_ambient_inject = 0.5
 volumetric_fog_sky_affect = 0.5
+
+[sub_resource type="PrismMesh" id="PrismMesh_2ow7u"]
+left_to_right = 0.0
+size = Vector3(5, 3, 50)
 
 [node name="Game" type="Node"]
 script = ExtResource("1_hyi2u")
@@ -102,60 +86,60 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 30.4824)
 use_collision = true
 size = Vector3(60, 4, 1)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="World3D/Map"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -30.5176)
 use_collision = true
 size = Vector3(60, 4, 1)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="World3D/Map"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -30.5, 1.5, -0.0176031)
 use_collision = true
 size = Vector3(62, 4, 1)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="World3D/Map"]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 30.5, 1.5, -0.0176031)
 use_collision = true
 size = Vector3(62, 4, 1)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="World3D/Map"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.6542, -0.15355, -15.2633)
 use_collision = true
 size = Vector3(4, 8, 4)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="CSGBox3D19" type="CSGBox3D" parent="World3D/Map"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 11.7691, 1.84645, -15.2633)
 use_collision = true
 size = Vector3(4, 8, 4)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="CSGBox3D16" type="CSGBox3D" parent="World3D/Map"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.6542, -2.4158, -20.5973)
 use_collision = true
 size = Vector3(4, 8, 4)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="CSGBox3D15" type="CSGBox3D" parent="World3D/Map"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.6542, 3.28543, -9.48947)
 use_collision = true
 size = Vector3(4, 8, 4)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="World3D/Map"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12, 10.637, -4.82583)
 use_collision = true
 size = Vector3(4, 8, 4)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="World3D/Map"]
 use_collision = true
 size = Vector3(60, 1, 60)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="World3D/Map"]
 environment = SubResource("Environment_g2h84")
@@ -169,27 +153,27 @@ shadow_blur = 2.0
 transform = Transform3D(0.5, 0.612522, -0.612223, 0, 0.706934, 0.70728, 0.866025, -0.35364, 0.353467, 5.1041, 8.37496, 3.10796)
 use_collision = true
 size = Vector3(7, 6.15308, 0.001)
-material = SubResource("StandardMaterial3D_q043c")
-
-[node name="CSGBox3D12" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(1, 0, 0, 0, 0.706934, 0.70728, 0, -0.70728, 0.706934, 12.4288, 0.356084, -27.3448)
-use_collision = true
-size = Vector3(6.32861, 6.15308, 1)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="CSGBox3D13" type="CSGBox3D" parent="World3D/Map"]
 transform = Transform3D(-1, 6.18324e-08, -6.18021e-08, 0, 0.706934, 0.70728, 8.74228e-08, 0.70728, -0.706934, -2.66431, 1.61592, 13.5448)
 use_collision = true
 size = Vector3(6.32861, 6.15308, 1)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="CSGBox3D18" type="CSGBox3D" parent="World3D/Map"]
 transform = Transform3D(1, -6.18324e-08, 1.49225e-07, 1.49225e-07, -4.37114e-08, -1, 6.18324e-08, 1, -4.37114e-08, -2.60046, 3.5791, 18.4459)
 use_collision = true
 size = Vector3(6.32861, 6.15308, 1)
-material = SubResource("StandardMaterial3D_q043c")
+material = ExtResource("2_hybli")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="World3D/Map"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 5.13015, 4.5566, -0.795824)
 light_energy = 31.08
 spot_range = 9.565
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="World3D/Map"]
+transform = Transform3D(-0.00198376, -0.000283272, -0.999998, -0.00173881, 0.999998, -0.000279825, 0.999997, 0.00173825, -0.00198425, 0.00260233, 2.00089, -27.5244)
+use_collision = true
+mesh = SubResource("PrismMesh_2ow7u")
+material = ExtResource("2_hybli")
