@@ -51,9 +51,10 @@ ssr_enabled = true
 ssr_max_steps = 80
 ssao_enabled = true
 ssao_intensity = 3.0
-ssil_enabled = true
+sdfgi_enabled = true
 sdfgi_use_occlusion = true
-sdfgi_energy = 2.0
+sdfgi_cascades = 5
+sdfgi_min_cell_size = 0.3
 glow_enabled = true
 glow_bloom = 0.25
 fog_light_color = Color(0.000213845, 0.0182105, 0.190645, 1)
@@ -97,28 +98,28 @@ unique_name_in_owner = true
 
 [node name="Map" type="Node3D" parent="World3D"]
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -29.5653)
-use_collision = true
-size = Vector3(52.4636, 5.83948, 1)
-material = SubResource("StandardMaterial3D_q043c")
-
 [node name="CSGBox3D3" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 29.3824)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 30.4824)
 use_collision = true
-size = Vector3(52.4636, 5.83948, 1)
+size = Vector3(60, 4, 1)
 material = SubResource("StandardMaterial3D_q043c")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -26, 0, 0.382374)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -30.5176)
 use_collision = true
-size = Vector3(60, 5.83948, 1)
+size = Vector3(60, 4, 1)
 material = SubResource("StandardMaterial3D_q043c")
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 26, 0, 0.382374)
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -30.5, 1.5, -0.0176031)
 use_collision = true
-size = Vector3(60, 5.83948, 1)
+size = Vector3(62, 4, 1)
+material = SubResource("StandardMaterial3D_q043c")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="World3D/Map"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 30.5, 1.5, -0.0176031)
+use_collision = true
+size = Vector3(62, 4, 1)
 material = SubResource("StandardMaterial3D_q043c")
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="World3D/Map"]
@@ -153,7 +154,7 @@ material = SubResource("StandardMaterial3D_q043c")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="World3D/Map"]
 use_collision = true
-size = Vector3(52.2363, 0.002, 59.575)
+size = Vector3(60, 1, 60)
 material = SubResource("StandardMaterial3D_q043c")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="World3D/Map"]
@@ -187,3 +188,8 @@ transform = Transform3D(1, -6.18324e-08, 1.49225e-07, 1.49225e-07, -4.37114e-08,
 use_collision = true
 size = Vector3(6.32861, 6.15308, 1)
 material = SubResource("StandardMaterial3D_q043c")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="World3D/Map"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 5.13015, 4.5566, -0.795824)
+light_energy = 31.08
+spot_range = 9.565
