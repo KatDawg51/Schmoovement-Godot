@@ -29,24 +29,27 @@ class_name Player extends CharacterBody3D
 @export var max_jump_power:float = 12
 @export var jump_speed_multi:float = 1.2
 @export_group("Vault")
-@export var vault_power:float = 6
+@export var vault_power:float = 5
 @export var vault_power_growth:float = 4
 @export var vault_boost:float = 4
 @export var vault_boost_decay:float = 2
-@export var vault_clip_time:float = 0.15
+#Values below 1 give more control cuz speed and boost are separate
+@export var vault_speed_multi:float = 0.9
+#End
+@export var vault_clip_time:float = 0.2
 @export var vault_boost_stack:bool = false
 @export_group("Both")
-@export var jump_vault_cool:float = 0.2
+@export var jump_vault_cool:float = 0.3
 @export var jump_vault_buff_amount:float = 0.1
 @export_category("Physics")
 #Ground Physics
-@export var ground_acel:float = 30
+@export var ground_acel:float = 50
 @export var ground_decel:float = 60
 #Air Strafing
-@export var air_control:float = 30.0
-@export var air_speed:float = 15.0
-@export var fall_speed:float = 30
-@export var gravity:float = ProjectSettings.get_setting("physics/3d/default_gravity")
+@export var air_control:float = 20
+@export var air_speed:float = 8
+@export var fall_speed:float = 50
+@export var gravity:float = 25
 @export_category("Timers")
 @export var coyote_amount:float
 @export_category("Camera")
@@ -143,7 +146,8 @@ func vault_jump(delta:float):
 
 				#Vertical Boost
 				speed.y = height
-
+				speed.x *= vault_speed_multi
+				speed.z *= vault_speed_multi
 				#Stacking?
 				if vault_boost_stack:
 					vault_momentum += vault_boost
