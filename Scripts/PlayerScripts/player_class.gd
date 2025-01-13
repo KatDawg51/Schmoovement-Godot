@@ -26,7 +26,7 @@ class_name Player extends CharacterBody3D
 @export_category("Jump and Vault")
 @export_group("Jump")
 @export var base_jump_power:float = 8
-@export var max_jump_power:float = 12
+@export var max_jump_power:float = 10
 @export var jump_speed_multi:float = 1.2
 @export_group("Vault")
 @export var vault_power:float = 5
@@ -94,6 +94,7 @@ func _ready() -> void:
 	coyote_timer = get_tree().create_timer(0)
 	jump_debounce = get_tree().create_timer(0)
 	slide_time = get_tree().create_timer(0)
+
 
 #Inputs
 func _input(event) -> void:
