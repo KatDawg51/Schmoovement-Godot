@@ -34,7 +34,7 @@ class_name Player extends CharacterBody3D
 @export var vault_boost:float = 4
 @export var vault_boost_decay:float = 2
 #Values below 1 give more control cuz speed and boost are separate
-@export var vault_speed_multi:float = 0.9
+@export var vault_speed_multi:float = 01
 #End
 @export var vault_clip_time:float = 0.2
 @export var vault_boost_stack:bool = false
