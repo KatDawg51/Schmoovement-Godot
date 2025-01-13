@@ -116,7 +116,6 @@ func _physics_process(delta:float) -> void:
 	headbob(delta)
 	update(delta)
 	vault_jump(delta)
-
 	#Update Speed GUI
 	#speed_gui.text = str(round(Vector2(velocity.x, velocity.z).length()))
 	if round(Vector2(velocity.x, velocity.z).length()) >= ground_speed:
