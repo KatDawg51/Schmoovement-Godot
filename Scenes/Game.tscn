@@ -12,6 +12,7 @@ outline_color = Color(0, 0, 0, 1)
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7hap0"]
 panorama = ExtResource("3_74kap")
 filter = false
+energy_multiplier = 0.2
 
 [sub_resource type="Sky" id="Sky_305cb"]
 resource_local_to_scene = true
@@ -22,28 +23,31 @@ process_mode = 3
 background_mode = 2
 sky = SubResource("Sky_305cb")
 ambient_light_source = 3
-ambient_light_color = Color(0.625603, 0.516132, 0.940457, 1)
+ambient_light_color = Color(0.711446, 0.472448, 0.923568, 1)
 ambient_light_sky_contribution = 0.5
 ambient_light_energy = 0.8
 reflected_light_source = 2
-tonemap_mode = 2
+tonemap_mode = 3
 tonemap_white = 2.0
 ssr_enabled = true
-ssr_max_steps = 80
+ssr_max_steps = 100
+ssr_fade_in = 0.1
+ssr_fade_out = 0.4
+ssr_depth_tolerance = 0.51
 ssao_enabled = true
-ssao_intensity = 3.0
-sdfgi_enabled = true
-sdfgi_use_occlusion = true
-sdfgi_cascades = 5
-sdfgi_min_cell_size = 0.3
+ssao_radius = 2.0
+ssao_intensity = 4.0
+ssao_power = 2.0
+ssao_detail = 1.0
+ssil_enabled = true
+ssil_intensity = 2.0
 glow_enabled = true
-glow_bloom = 0.25
+glow_bloom = 0.2
 fog_light_color = Color(0.000213845, 0.0182105, 0.190645, 1)
 fog_density = 0.0
 fog_depth_curve = 7.46426
 fog_depth_begin = -1773.0
 fog_depth_end = 2520.0
-volumetric_fog_enabled = true
 volumetric_fog_density = 0.01
 volumetric_fog_length = 30.0
 volumetric_fog_ambient_inject = 0.5
@@ -148,7 +152,6 @@ environment = SubResource("Environment_g2h84")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="World3D/Map"]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
-shadow_blur = 2.0
 
 [node name="CSGBox3D17" type="CSGBox3D" parent="World3D/Map"]
 transform = Transform3D(0.5, 0.612522, -0.612223, 0, 0.706934, 0.70728, 0.866025, -0.35364, 0.353467, 5.1041, 8.37496, 3.10796)

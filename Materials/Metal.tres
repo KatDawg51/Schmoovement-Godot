@@ -5,19 +5,18 @@
 
 [resource]
 albedo_texture = ExtResource("1_51xvf")
-metallic = 0.1
-roughness = 0.5
+roughness = 0.3
 rim = 0.0
 rim_tint = 0.39
 rim_texture = ExtResource("2_4mwwm")
 clearcoat_enabled = true
-clearcoat = 0.2
-clearcoat_roughness = 0.25
-anisotropy_enabled = true
-anisotropy = 0.1
+clearcoat = 0.5
+clearcoat_roughness = 0.1
+anisotropy = -1.0
 heightmap_scale = 13.758
 heightmap_texture = ExtResource("1_51xvf")
 backlight = Color(9.19297e-06, 0.2049, 0.597158, 1)
+refraction_scale = -1.0
 uv1_scale = Vector3(0.5, 0.5, 0.5)
 uv1_triplanar = true
 texture_filter = 5
