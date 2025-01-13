@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/Game/game.gd" id="1_hyi2u"]
 [ext_resource type="Material" uid="uid://lc1lupq3re2x" path="res://Materials/Metal.tres" id="2_hybli"]
-[ext_resource type="Texture2D" uid="uid://bybj33yspagqr" path="res://Materials/winter_lake_01_4k.exr" id="4_63omn"]
+[ext_resource type="Texture2D" uid="uid://dxjx5smkaoc3u" path="res://Materials/qwantani_dusk_2_4k.exr" id="3_74kap"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u1ld4"]
 font_size = 100
@@ -10,7 +10,7 @@ outline_size = 10
 outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7hap0"]
-panorama = ExtResource("4_63omn")
+panorama = ExtResource("3_74kap")
 filter = false
 
 [sub_resource type="Sky" id="Sky_305cb"]
@@ -22,8 +22,9 @@ process_mode = 3
 background_mode = 2
 sky = SubResource("Sky_305cb")
 ambient_light_source = 3
-ambient_light_color = Color(0.287928, 0.603572, 1, 1)
+ambient_light_color = Color(0.625603, 0.516132, 0.940457, 1)
 ambient_light_sky_contribution = 0.5
+ambient_light_energy = 0.8
 reflected_light_source = 2
 tonemap_mode = 2
 tonemap_white = 2.0
