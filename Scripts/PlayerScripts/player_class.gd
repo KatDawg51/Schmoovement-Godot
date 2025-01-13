@@ -23,6 +23,7 @@ class_name Player extends CharacterBody3D
 ##Stats
 @export_category("Speed")
 @export var ground_speed:float = 10
+@export var air_speed:float = 8
 @export_category("Jump and Vault")
 @export_group("Jump")
 @export var base_jump_power:float = 8
@@ -41,25 +42,21 @@ class_name Player extends CharacterBody3D
 @export_group("Both")
 @export var jump_vault_cool:float = 0.3
 @export var jump_vault_buff_amount:float = 0.1
+@export var coyote_amount:float = 0.5
 @export_category("Physics")
-#Ground Physics
 @export var ground_acel:float = 50
 @export var ground_decel:float = 60
-#Air Strafing
 @export var air_control:float = 20
-@export var air_speed:float = 8
 @export var fall_speed:float = 50
 @export var gravity:float = 25
-@export_category("Timers")
-@export var coyote_amount:float
 @export_category("Camera")
-@export var sens := 0.1
+@export var sens := 0.02
 @export_group("Bob")
-@export var bob_freq := 2.5
-@export var bob_amp := 0.1
+@export var bob_freq := 2.2
+@export var bob_amp := 1
 @export_group("FOV")
 @export var base_FOV:= 80.0
-@export var FOV_change := 1.5
+@export var FOV_change := 2
 
 ##Trackers
 #Velocity = Speed + Boost
