@@ -110,8 +110,7 @@ vault_cast = NodePath("VaultCast")
 collision = NodePath("Collision")
 anim_plr = NodePath("AnimationPlayer")
 particles = NodePath("Head/CamRig/SpringArm/Cam/GPUParticles3D")
-jump_speed_multi = 1.4
-bob_amp = 1.5
+auto_sprint = false
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

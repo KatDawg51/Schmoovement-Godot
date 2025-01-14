@@ -22,7 +22,9 @@ class_name Player extends CharacterBody3D
 
 ##Stats
 @export_category("Speed")
-@export var ground_speed:float = 10
+@export var auto_sprint:bool = true
+@export var sprint_speed:float = 10
+@export var walk_speed:float = 8
 @export var air_speed:float = 8
 @export_category("Jump and Vault")
 @export_group("Jump")
@@ -65,8 +67,6 @@ var boost:Vector3
 #Direct Input and Input Relative to Character
 var input_dir:Vector2
 var dir:Vector3
-#Relative Input with Slower Strafe Speed
-var ground_dir:Vector3
 #Allow Coyote Timer to Begin
 var coyote:bool = false
 #Clamped Velocity for Headbob and FOV
@@ -79,6 +79,8 @@ var bob_pos:Vector3
 var vault_momentum:float
 #Real Horizontel Velocity Length
 var hv:float
+#Track if player is running
+var sprinting:bool
 
 #States Enum for "State Machine"
 enum states {ground, run, air}
@@ -110,13 +112,18 @@ func _input(event) -> void:
 #Runs Ever Physics Frame
 func _physics_process(delta:float) -> void:
 	#Run Functions
+	if Input.is_action_pressed("sprint") or auto_sprint:
+		sprinting = true if input_dir.dot(Vector2.UP) > 0 else false
+	else:
+		sprinting = false
+	print(sprinting)
 	set_input_dirs()
 	FOV(delta)
 	headbob(delta)
 	update(delta)
 	vault_jump(delta)
 
-	if round(hv) >= ground_speed:
+	if round(hv) >= sprint_speed:
 		particles.emitting = true
 	else:
 		particles.emitting = false
@@ -175,7 +182,7 @@ func vault_jump(delta:float):
 			#Jump If Shapecast Is False Detecting
 			elif is_on_floor():
 				if jump_debounce.time_left <= 0:
-					var real_power:float = clamp(base_jump_power * velocity.length() / (ground_speed/2), base_jump_power, max_jump_power)
+					var real_power:float = clamp(base_jump_power * velocity.length() / (sprint_speed/2), base_jump_power, max_jump_power)
 					speed = Vector3(speed.x * jump_speed_multi, max(0, get_real_velocity().y) + real_power, speed.z * jump_speed_multi)
 					coyote = false
 					jump_buff = get_tree().create_timer(0)
@@ -183,7 +190,7 @@ func vault_jump(delta:float):
 		#Jumping
 		elif is_on_floor() or (coyote and coyote_timer.time_left > 0):
 			if jump_debounce.time_left <= 0:
-				var real_power:float = clamp(base_jump_power * velocity.length() / (ground_speed/2), base_jump_power, max_jump_power)
+				var real_power:float = clamp(base_jump_power * velocity.length() / (sprint_speed/2), base_jump_power, max_jump_power)
 				speed = Vector3(speed.x * jump_speed_multi, max(0, get_real_velocity().y) + real_power, speed.z * jump_speed_multi)
 				coyote = false
 				jump_buff = get_tree().create_timer(0)
@@ -192,10 +199,9 @@ func vault_jump(delta:float):
 func set_input_dirs() -> void:
 	input_dir = Input.get_vector("left", "right", "up", "down").normalized()
 	dir = transform.basis * Vector3(input_dir.x, 0, input_dir.y)
-	ground_dir = transform.basis * Vector3(input_dir.x if input_dir.y < 0 else input_dir.x * 0.8 , 0, input_dir.y if input_dir.y < 0 else input_dir.y * 0.8)
 
 func FOV(delta:float) -> void:
-	clamped_velocity = min(velocity.length(), ground_speed*2)
+	clamped_velocity = min(velocity.length(), sprint_speed*2)
 	var target_fov = base_FOV + FOV_change * clamped_velocity
 	cam.fov = lerp(cam.fov, target_fov, delta * 8.0)
 
@@ -248,8 +254,8 @@ func update(delta:float) -> void:
 	match state():
 		#Walking
 		states.ground:
-			var moving = true if dir or not is_equal_approx(speed.length(), 0) or not dir.dot(get_real_velocity()) <= 0 else false
-			speed = speed.move_toward(ground_dir * ground_speed, (ground_acel if moving else ground_decel) * delta)
+			var moving = true if dir.dot(get_real_velocity()) > 0 else false
+			speed = speed.move_toward(dir * (sprint_speed if sprinting else walk_speed), (ground_acel if moving else ground_decel) * delta)
 			#Coyote Time Reset
 			if speed.y > 0:
 				coyote = false
