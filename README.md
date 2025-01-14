@@ -7,7 +7,7 @@ I made this little movement system based on: Untitled Tag Game (Roblox), and Bad
 It has:
 1. Robust Vaulting System
 2. Acceleration and Deceleration
-3. 3D GPU Particle Speed Streaks 
+3. 3D GPU Particle Speed Streaks
 4. Test Map
 5. Smooth Head Bob
 6. FOV alterations based on speed

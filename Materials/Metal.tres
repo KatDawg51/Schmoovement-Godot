@@ -4,18 +4,19 @@
 [ext_resource type="Texture2D" uid="uid://c7324odabs1sm" path="res://Materials/PNG/Dark/texture_01.png" id="2_4mwwm"]
 
 [resource]
+diffuse_mode = 3
+specular_mode = 1
 albedo_texture = ExtResource("1_51xvf")
-metallic_specular = 0.2
-roughness = 0.2
+roughness = 0.8
 rim = 0.0
 rim_tint = 0.39
 rim_texture = ExtResource("2_4mwwm")
-clearcoat_enabled = true
 clearcoat = 0.5
 clearcoat_roughness = 0.1
-anisotropy = -1.0
+anisotropy = 0.66
 heightmap_scale = 13.758
 heightmap_texture = ExtResource("1_51xvf")
+subsurf_scatter_strength = 1.0
 backlight = Color(9.19297e-06, 0.2049, 0.597158, 1)
 refraction_scale = -1.0
 uv1_scale = Vector3(0.5, 0.5, 0.5)
