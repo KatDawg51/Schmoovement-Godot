@@ -116,7 +116,6 @@ func _physics_process(delta:float) -> void:
 		sprinting = true if input_dir.dot(Vector2.UP) > 0 else false
 	else:
 		sprinting = false
-	print(sprinting)
 	set_input_dirs()
 	FOV(delta)
 	headbob(delta)
