@@ -52,11 +52,11 @@ class_name Player extends CharacterBody3D
 @export_category("Camera")
 @export var sens := 0.02
 @export_group("Bob")
-@export var bob_freq := 2.2
-@export var bob_amp := 1
+@export var bob_freq:float = 2.2
+@export var bob_amp:float = 1
 @export_group("FOV")
-@export var base_FOV:= 80.0
-@export var FOV_change := 2
+@export var base_FOV:float = 80.0
+@export var FOV_change:float = 2
 
 ##Trackers
 #Velocity = Speed + Boost
@@ -77,6 +77,8 @@ var smoothed_amp:float
 var bob_pos:Vector3
 #Vault Boost Tracker
 var vault_momentum:float
+#Real Horizontel Velocity Length
+var hv:float
 
 #States Enum for "State Machine"
 enum states {ground, run, air}
@@ -113,13 +115,16 @@ func _physics_process(delta:float) -> void:
 	headbob(delta)
 	update(delta)
 	vault_jump(delta)
-	#Update Speed GUI
-	#speed_gui.text = str(round(Vector2(velocity.x, velocity.z).length()))
-	if round(Vector2(velocity.x, velocity.z).length()) >= ground_speed:
+
+	if round(hv) >= ground_speed:
 		particles.emitting = true
 	else:
 		particles.emitting = false
-	speed_gui.text = str(round(Vector2(velocity.x, velocity.z).length()))
+
+	speed_gui.text = str(round(hv))
+
+	#HV
+	hv = Vector2(velocity.x, velocity.z).length()
 
 #Jump Action
 func vault_jump(delta:float):
@@ -250,7 +255,7 @@ func update(delta:float) -> void:
 		#Midair
 		states.air:
 			#Gravity
-			speed.y = move_toward(speed.y, -fall_speed, gravity * delta)
+			speed.y = move_toward(get_real_velocity().y, -fall_speed, gravity * delta)
 			#Air Strafing
 			speed.x = move_toward(speed.x, dir.x * air_speed, air_control * delta)
 			speed.z = move_toward(speed.z, dir.z * air_speed, air_control * delta)

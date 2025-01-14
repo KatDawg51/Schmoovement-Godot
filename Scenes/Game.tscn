@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/Game/game.gd" id="1_hyi2u"]
 [ext_resource type="Material" uid="uid://lc1lupq3re2x" path="res://Materials/Metal.tres" id="2_hybli"]
-[ext_resource type="Texture2D" uid="uid://dxjx5smkaoc3u" path="res://Materials/qwantani_dusk_2_4k.exr" id="3_74kap"]
+[ext_resource type="Texture2D" uid="uid://cyymbqe2ppixd" path="res://Materials/HDRI.hdr" id="3_2t830"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u1ld4"]
 font_size = 100
@@ -10,9 +10,8 @@ outline_size = 10
 outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7hap0"]
-panorama = ExtResource("3_74kap")
-filter = false
-energy_multiplier = 0.2
+panorama = ExtResource("3_2t830")
+energy_multiplier = 0.5
 
 [sub_resource type="Sky" id="Sky_305cb"]
 resource_local_to_scene = true
@@ -23,7 +22,7 @@ process_mode = 3
 background_mode = 2
 sky = SubResource("Sky_305cb")
 ambient_light_source = 3
-ambient_light_color = Color(0.711446, 0.472448, 0.923568, 1)
+ambient_light_color = Color(0.376482, 0.598457, 0.955737, 1)
 ambient_light_sky_contribution = 0.5
 ambient_light_energy = 0.8
 reflected_light_source = 2
@@ -164,11 +163,6 @@ transform = Transform3D(1, -6.18324e-08, 1.49225e-07, 1.49225e-07, -4.37114e-08,
 use_collision = true
 size = Vector3(6, 16, 1)
 material = ExtResource("2_hybli")
-
-[node name="SpotLight3D" type="SpotLight3D" parent="World3D/Map"]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 5.13015, 4.5566, -0.795824)
-light_energy = 31.08
-spot_range = 9.565
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="World3D/Map"]
 transform = Transform3D(-0.00198376, -0.000283272, -0.999998, -0.00173881, 0.999998, -0.000279825, 0.999997, 0.00173825, -0.00198425, 0.00266345, 2.00094, -27.5552)
