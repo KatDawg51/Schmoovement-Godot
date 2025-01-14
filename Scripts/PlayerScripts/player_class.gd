@@ -123,6 +123,9 @@ func _physics_process(delta:float) -> void:
 
 	speed_gui.text = str(round(hv))
 
+	particles.global_position.x = velocity.normalized().x * 0.3 + global_position.x
+	particles.global_position.z = velocity.normalized().z * 0.3 + global_position.z
+
 	#HV
 	hv = Vector2(velocity.x, velocity.z).length()
 
