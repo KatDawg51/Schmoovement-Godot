@@ -158,7 +158,7 @@ size = Vector3(6, 16, 1)
 material = ExtResource("2_hybli")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="World3D/Map"]
-transform = Transform3D(-0.00198376, -0.000283272, -0.999998, -0.00173881, 0.999998, -0.000279825, 0.999997, 0.00173825, -0.00198425, 0.00266345, 2.00094, -27.5552)
+transform = Transform3D(-0.00198638, -0.000283646, -1.00132, -0.00174111, 1.00132, -0.000280194, 1.00132, 0.00174054, -0.00198687, 0.00266345, 2.00094, -27.5552)
 use_collision = true
 mesh = SubResource("PrismMesh_2ow7u")
 material = ExtResource("2_hybli")

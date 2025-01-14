@@ -263,10 +263,14 @@ func update(delta:float) -> void:
 				coyote = true
 		#Midair
 		states.air:
+			#Set up smooth horizontel air movement
+			var goal = Vector2(speed.x, speed.z)
+			var flat_dir = Vector2(dir.x, dir.z)
+			goal = goal.move_toward(flat_dir * air_speed, air_control * delta)
 			#Gravity
 			speed.y = move_toward(get_real_velocity().y, -fall_speed, gravity * delta)
 			#Air Strafing
-			speed.x = move_toward(speed.x, dir.x * air_speed, air_control * delta)
-			speed.z = move_toward(speed.z, dir.z * air_speed, air_control * delta)
+			speed.x = goal.x
+			speed.z = goal.y
 
 #https://www.youtube.com/watch?v=sidnx5kXn1k
