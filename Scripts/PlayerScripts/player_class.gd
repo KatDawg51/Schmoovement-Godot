@@ -29,6 +29,7 @@ class_name Player extends CharacterBody3D
 @export_category("Jump and Vault")
 @export_group("Jump")
 @export var base_jump_power:float = 8
+#Max power is relative to sprint speed
 @export var max_jump_power:float = 10
 @export var jump_speed_multi:float = 1.2
 @export_group("Vault")
@@ -177,19 +178,13 @@ func vault_jump(delta:float):
 					await get_tree().create_timer(vault_clip_time).timeout
 					collision.disabled = false
 					collision.scale = Vector3(1, 1, 1)
+				return
 
-			#Jump If Shapecast Is False Detecting
-			elif is_on_floor():
-				if jump_debounce.time_left <= 0:
-					var real_power:float = clamp(base_jump_power * velocity.length() / (sprint_speed/2), base_jump_power, max_jump_power)
-					speed = Vector3(speed.x * jump_speed_multi, max(0, get_real_velocity().y) + real_power, speed.z * jump_speed_multi)
-					coyote = false
-					jump_buff = get_tree().create_timer(0)
-					jump_debounce = get_tree().create_timer(jump_vault_cool)
 		#Jumping
-		elif is_on_floor() or (coyote and coyote_timer.time_left > 0):
+		if is_on_floor() or (coyote and coyote_timer.time_left > 0):
 			if jump_debounce.time_left <= 0:
-				var real_power:float = clamp(base_jump_power * velocity.length() / (sprint_speed/2), base_jump_power, max_jump_power)
+				var speed_inverse = clamp(inverse_lerp(0, sprint_speed, velocity.length()), 0, 1)
+				var real_power = lerp(base_jump_power, max_jump_power, speed_inverse)
 				speed = Vector3(speed.x * jump_speed_multi, max(0, get_real_velocity().y) + real_power, speed.z * jump_speed_multi)
 				coyote = false
 				jump_buff = get_tree().create_timer(0)
