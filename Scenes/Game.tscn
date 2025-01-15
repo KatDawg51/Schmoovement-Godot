@@ -22,7 +22,7 @@ process_mode = 3
 background_mode = 2
 sky = SubResource("Sky_305cb")
 ambient_light_source = 3
-ambient_light_color = Color(0.376482, 0.598457, 0.955737, 1)
+ambient_light_color = Color(0.681919, 0.799114, 0.984765, 1)
 ambient_light_sky_contribution = 0.5
 ambient_light_energy = 0.8
 reflected_light_source = 2
@@ -47,7 +47,7 @@ volumetric_fog_sky_affect = 0.5
 
 [sub_resource type="PrismMesh" id="PrismMesh_2ow7u"]
 left_to_right = 0.0
-size = Vector3(5, 4, 6)
+size = Vector3(5, 3, 6)
 
 [node name="Game" type="Node"]
 script = ExtResource("1_hyi2u")
@@ -80,57 +80,57 @@ unique_name_in_owner = true
 [node name="Map" type="Node3D" parent="World3D"]
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 30.4824)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 30.4824)
 use_collision = true
-size = Vector3(60, 4, 1)
+size = Vector3(60, 5, 1)
 material = ExtResource("2_hybli")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -30.5176)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -29.5)
 use_collision = true
-size = Vector3(60, 4, 1)
+size = Vector3(60, 3, 1)
 material = ExtResource("2_hybli")
 
 [node name="CSGBox3D5" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -30.5, 1.5, -0.0176031)
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -30.5, 1.5, 0.482397)
 use_collision = true
-size = Vector3(62, 4, 1)
+size = Vector3(61, 4, 1)
 material = ExtResource("2_hybli")
 
 [node name="CSGBox3D6" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 30.5, 1.5, -0.0176031)
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 30.5, 1.5, 0.482397)
 use_collision = true
-size = Vector3(62, 4, 1)
+size = Vector3(61, 4, 1)
 material = ExtResource("2_hybli")
 
 [node name="CSGBox3D14" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.6542, -0.15355, -15.2633)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 2.25, -15)
 use_collision = true
-size = Vector3(4, 8, 4)
+size = Vector3(4, 3.5, 4)
 material = ExtResource("2_hybli")
 
 [node name="CSGBox3D19" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 11.7691, 1.84645, -15.2633)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12.016, 3.42833, -15.1478)
 use_collision = true
-size = Vector3(4, 8, 4)
+size = Vector3(4, 6, 4)
 material = ExtResource("2_hybli")
 
 [node name="CSGBox3D16" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.6542, -2.4158, -20.5973)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 1, -20.5)
 use_collision = true
-size = Vector3(4, 8, 4)
+size = Vector3(4, 1, 4)
 material = ExtResource("2_hybli")
 
 [node name="CSGBox3D15" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4.6542, 3.28543, -9.48947)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 4, -9)
 use_collision = true
-size = Vector3(4, 8, 4)
+size = Vector3(4, 7, 4)
 material = ExtResource("2_hybli")
 
 [node name="CSGBox3D10" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12, 10.637, -4.82583)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12, 10, -5)
 use_collision = true
-size = Vector3(4, 8, 4)
+size = Vector3(4, 7, 4)
 material = ExtResource("2_hybli")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="World3D/Map"]
@@ -146,25 +146,25 @@ transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -
 shadow_enabled = true
 
 [node name="CSGBox3D17" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(0.5, 0.612522, -0.612223, 0, 0.706934, 0.70728, 0.866025, -0.35364, 0.353467, 5.1041, 8.37496, 3.10796)
+transform = Transform3D(0.5, 0.612522, -0.612223, 0, 0.706934, 0.70728, 0.866025, -0.35364, 0.353467, 6, 8.5, 3)
 use_collision = true
-size = Vector3(7, 6.15308, 0.001)
+size = Vector3(7, 6, 0.5)
 material = ExtResource("2_hybli")
 
 [node name="CSGBox3D18" type="CSGBox3D" parent="World3D/Map"]
-transform = Transform3D(1, -6.18324e-08, 1.49225e-07, 1.49225e-07, -4.37114e-08, -1, 6.18324e-08, 1, -4.37114e-08, -2, 4, 23)
+transform = Transform3D(1, -6.18324e-08, 1.49225e-07, 1.49225e-07, -4.37114e-08, -1, 6.18324e-08, 1, -4.37114e-08, -2, 4, 22)
 use_collision = true
 size = Vector3(6, 16, 1)
 material = ExtResource("2_hybli")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="World3D/Map"]
-transform = Transform3D(-0.00198638, -0.000283646, -1.00132, -0.00174111, 1.00132, -0.000280194, 1.00132, 0.00174054, -0.00198687, 0.00280527, 1.50028, -27.5561)
+transform = Transform3D(-0.00198638, -0.000283646, -1.00132, -0.00174111, 1.00132, -0.000280194, 1.00132, 0.00174054, -0.00198687, 0.00297957, 2.00261, -26.502)
 use_collision = true
 mesh = SubResource("PrismMesh_2ow7u")
 material = ExtResource("2_hybli")
 
 [node name="CSGMesh3D2" type="CSGMesh3D" parent="World3D/Map"]
-transform = Transform3D(0.00198367, -0.000373919, 0.999998, 0.00173881, 1.32, 0.000279821, -0.999997, 0.00229449, 0.00198416, -2.00095, 1.87113, 12.4998)
+transform = Transform3D(0.00198367, -0.000373919, 0.999998, 0.00173881, 1.32, 0.000279821, -0.999997, 0.00229449, 0.00198416, -2, 2.5, 11.5)
 use_collision = true
 mesh = SubResource("PrismMesh_2ow7u")
 material = ExtResource("2_hybli")

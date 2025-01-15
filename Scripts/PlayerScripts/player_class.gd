@@ -29,9 +29,10 @@ class_name Player extends CharacterBody3D
 @export_category("Jump and Vault")
 @export_group("Jump")
 @export var base_jump_power:float = 8
+#Relative to sprint speed!
 @export var max_jump_power:float = 10
 @export var jump_speed_multi:float = 1.2
-@export var coyote_time:float = 0.5
+@export var coyote_time:float = 0.2
 @export_group("Vault")
 @export var vault_power:float = 5
 @export var vault_power_growth:float = 4
@@ -58,15 +59,12 @@ class_name Player extends CharacterBody3D
 @export var base_FOV:float = 80.0
 @export var FOV_change:float = 2
 
-##Trackers
-#Velocity = Speed + Boost
+#velocity = speed + boost
 var speed:Vector3
 var boost:Vector3
-#Direct Input and Input Relative to Character
+#Direct input and input relative to character
 var input_dir:Vector2
 var dir:Vector3
-#Allow Coyote Timer to Begin
-var coyote:bool = false
 #Clamped Velocity for Headbob and FOV
 var clamped_velocity:float
 #Headbob Variables
@@ -76,7 +74,7 @@ var bob_pos:Vector3
 #Vault Boost Tracker
 var vault_momentum:float
 #Real Horizontel Velocity Length
-var hv:float
+var hori_vel:Vector2
 #Track if player is running
 var sprinting:bool
 
@@ -112,30 +110,28 @@ func _physics_process(delta:float) -> void:
 	#Run Functions
 
 	set_input_dirs()
-	coyote_timeout()
 	headbob(delta)
 	update(delta)
 	FOV(delta)
 	jv(delta)
 
-	if round(hv) >= sprint_speed:
+	if round(hori_vel.length()) >= sprint_speed:
 		particles.emitting = true
 	else:
 		particles.emitting = false
 
-	speed_gui.text = str(round(hv))
+	speed_gui.text = str(roundf(hori_vel.length()))
 
 	particles.global_position.x = velocity.normalized().x * 0.3 + global_position.x
 	particles.global_position.z = velocity.normalized().z * 0.3 + global_position.z
 
 	#HV
-	hv = Vector2(velocity.x, velocity.z).length()
+	hori_vel = Vector2(velocity.x, velocity.z)
 
-#Jump Action
+#Jump vault
 func jv(delta:float):
 	#Gegagedigedagedago
 	vault_momentum = move_toward(vault_momentum, 0, vault_boost_decay * delta)
-	#gigigtyttrgrgrgggg
 	boost = dir * vault_momentum
 	#Detection
 	if Input.is_action_just_pressed("jump"):
@@ -171,12 +167,12 @@ func jv(delta:float):
 				return
 
 		#Jumping
-		if is_on_floor() or coyote:
+		if is_on_floor() or coyote_timer.time_left > 0:
 			if jump_debounce.time_left <= 0:
 				var speed_inverse = clamp(inverse_lerp(0, sprint_speed, velocity.length()), 0, 1)
 				var real_power = lerp(base_jump_power, max_jump_power, speed_inverse)
 				speed = Vector3(speed.x * jump_speed_multi, max(0, get_real_velocity().y) + real_power, speed.z * jump_speed_multi)
-				coyote = false
+				coyote_timer = get_tree().create_timer(0)
 				jump_buff = get_tree().create_timer(0)
 				jump_debounce = get_tree().create_timer(jv_vault_cool)
 
@@ -185,7 +181,7 @@ func set_input_dirs() -> void:
 	dir = transform.basis * Vector3(input_dir.x, 0, input_dir.y)
 
 func FOV(delta:float) -> void:
-	clamped_velocity = min(hv, sprint_speed*2)
+	clamped_velocity = min(hori_vel.length(), sprint_speed*2)
 	var target_fov = base_FOV + FOV_change * clamped_velocity
 	cam.fov = lerp(cam.fov, target_fov, delta * 8.0)
 
@@ -201,10 +197,6 @@ func headbob(delta:float) -> void:
 	bob_time += delta * velocity.length()
 	spring_arm.transform.origin = smoothed_pos
 
-#Coyote Timeout
-func coyote_timeout():
-	await coyote_timer.timeout
-	coyote = false
 
 #Returns The Current State
 func state() -> states:
@@ -220,8 +212,8 @@ func state() -> states:
 #Update Velocity
 func update(delta:float) -> void:
 	velocity = speed + boost
-	if coyote and coyote_timer.time_left <= 0:
-		coyote_timer = get_tree().create_timer(coyote_time)
+	#if coyote and coyote_timer.time_left <= 0:
+		#coyote_timer = get_tree().create_timer(coyote_time)
 	move_and_slide()
 
 	#Match States
@@ -233,7 +225,7 @@ func update(delta:float) -> void:
 			#Moves player at walk speed
 			speed = speed.move_toward(dir * walk_speed, (ground_acel if moving else ground_decel) * delta)
 			#Coyote bool reset
-			coyote = false if speed.y > 0 else true
+			coyote_timer = get_tree().create_timer(0) if speed.y > 0 else get_tree().create_timer(coyote_time)
 
 		#Sprinting
 		states.sprint:
@@ -242,7 +234,7 @@ func update(delta:float) -> void:
 			#Moves player at sprint speed
 			speed = speed.move_toward(dir * sprint_speed, (ground_acel if moving else ground_decel) * delta)
 			#Coyote bool reset
-			coyote = false if speed.y > 0 else true
+			coyote_timer = get_tree().create_timer(0) if speed.y > 0 else get_tree().create_timer(coyote_time)
 
 		#Midair
 		states.air:
