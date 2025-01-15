@@ -47,7 +47,7 @@ _data = {
 "Vault": SubResource("Animation_qp4bt")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "cam", "ground_normal_ray", "vault_cast", "collision", "anim_plr")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "cam", "vault_cast", "collision", "anim_plr")]
 collision_layer = 2
 collision_mask = 3
 floor_constant_speed = true
@@ -55,7 +55,6 @@ floor_max_angle = 1.309
 script = ExtResource("1_gp0fo")
 head = NodePath("Head")
 cam = NodePath("Head/Cam")
-ground_normal_ray = NodePath("")
 vault_cast = NodePath("VaultCast")
 collision = NodePath("Collision")
 anim_plr = NodePath("AnimationPlayer")

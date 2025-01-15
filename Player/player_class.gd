@@ -4,7 +4,6 @@ class_name Player extends CharacterBody3D
 @export_group("Refrences")
 @export var head:Node3D
 @export var cam:Camera3D
-@export var ground_normal_ray:RayCast3D
 @export var vault_cast:ShapeCast3D
 @export var collision:CollisionShape3D
 @export var anim_plr:AnimationPlayer
@@ -30,12 +29,12 @@ class_name Player extends CharacterBody3D
 @export var jump_speed_multi:float = 1.2
 @export var coyote_time:float = 0.2
 @export_group("Vault")
-@export var vault_power:float = 5
-@export var vault_power_growth:float = 4
+@export var vault_power:float = 8
+@export var vault_power_growth:float = 2
 @export var vault_boost:float = 4
-@export var vault_boost_decay:float = 4
-@export var vault_speed_multi:float = 1
-@export var vault_clip_time:float = 0.2
+@export var vault_boost_decay:float = 2
+@export var vault_speed_multi:float = 0.8
+@export var vault_clip_time:float = 0.25
 @export var vault_boost_stack:bool = false
 @export_group("Both")
 @export var jv_vault_cool:float = 0.3
@@ -43,7 +42,7 @@ class_name Player extends CharacterBody3D
 @export_category("Physics")
 @export var ground_acel:float = 50
 @export var ground_decel:float = 60
-@export var air_control:float = 20
+@export var air_control:float = 25
 @export var fall_speed:float = 50
 @export var gravity:float = 30
 @export_category("Camera")

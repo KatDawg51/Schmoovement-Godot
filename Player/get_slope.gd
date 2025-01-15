@@ -1,5 +1,5 @@
-extends Player
-
+extends Node
+var ground_normal_ray
 #UNUSED:
 func get_slope() -> Vector3:
 	var normal:Vector3
