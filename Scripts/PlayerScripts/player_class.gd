@@ -29,23 +29,20 @@ class_name Player extends CharacterBody3D
 @export_category("Jump and Vault")
 @export_group("Jump")
 @export var base_jump_power:float = 8
-#Max power is relative to sprint speed
 @export var max_jump_power:float = 10
 @export var jump_speed_multi:float = 1.2
+@export var coyote_time:float = 0.5
 @export_group("Vault")
 @export var vault_power:float = 5
 @export var vault_power_growth:float = 4
 @export var vault_boost:float = 4
 @export var vault_boost_decay:float = 2
-#Values below 1 give more control cuz speed and boost are separate
 @export var vault_speed_multi:float = 01
-#End
 @export var vault_clip_time:float = 0.2
 @export var vault_boost_stack:bool = false
 @export_group("Both")
-@export var jump_vault_cool:float = 0.3
-@export var jump_vault_buff_amount:float = 0.1
-@export var coyote_amount:float = 0.5
+@export var jv_vault_cool:float = 0.3
+@export var jv_buff_time:float = 0.1
 @export_category("Physics")
 @export var ground_acel:float = 50
 @export var ground_decel:float = 60
@@ -84,7 +81,7 @@ var hv:float
 var sprinting:bool
 
 #States Enum for "State Machine"
-enum states {ground, run, air}
+enum states {walk, sprint, air}
 
 #Lock Mouse
 func _ready() -> void:
@@ -113,15 +110,13 @@ func _input(event) -> void:
 #Runs Ever Physics Frame
 func _physics_process(delta:float) -> void:
 	#Run Functions
-	if Input.is_action_pressed("sprint") or auto_sprint:
-		sprinting = true if input_dir.dot(Vector2.UP) > 0 else false
-	else:
-		sprinting = false
+
 	set_input_dirs()
-	FOV(delta)
+	coyote_timeout()
 	headbob(delta)
 	update(delta)
-	vault_jump(delta)
+	FOV(delta)
+	jv(delta)
 
 	if round(hv) >= sprint_speed:
 		particles.emitting = true
@@ -137,26 +132,27 @@ func _physics_process(delta:float) -> void:
 	hv = Vector2(velocity.x, velocity.z).length()
 
 #Jump Action
-func vault_jump(delta:float):
+func jv(delta:float):
 	#Gegagedigedagedago
 	vault_momentum = move_toward(vault_momentum, 0, vault_boost_decay * delta)
 	#gigigtyttrgrgrgggg
 	boost = dir * vault_momentum
 	#Detection
 	if Input.is_action_just_pressed("jump"):
-		jump_buff = get_tree().create_timer(jump_vault_buff_amount)
+		jump_buff = get_tree().create_timer(jv_buff_time)
 
 	#Jump or Vault
 	if jump_buff.time_left > 0:
 		#Vaulting
 		if vault_cast.is_colliding():
-			var vault_normal := vault_cast.get_collision_normal(0)
-			if vault_normal.dot(Vector3.UP) > 0:
-				#Vars Idek
+			if Vector3.UP.dot(vault_cast.get_collision_normal(0)) > 0:
+				#Update timers
+				jump_buff = get_tree().create_timer(0)
+				jump_debounce = get_tree().create_timer(jv_vault_cool)
+				#Local vars
 				var vault_diff := vault_cast.get_collision_point(0) - global_position
 				var height:float = vault_power + vault_diff.y * vault_power_growth
-
-				#Vertical Boost
+				#Apply impulses
 				speed.y = height
 				speed.x *= vault_speed_multi
 				speed.z *= vault_speed_multi
@@ -165,37 +161,31 @@ func vault_jump(delta:float):
 					vault_momentum += vault_boost
 				else:
 					vault_momentum = vault_boost
-
-				#Reset Buffer and Add Cooldown
-				jump_buff = get_tree().create_timer(0)
-				jump_debounce = get_tree().create_timer(jump_vault_cool)
-
 				#Handle Conllisions
 				if dir.dot(Vector3(vault_diff.x, 0 , vault_diff.z).normalized()) > 0:
 					anim_plr.play("Vault")
-					collision.scale = Vector3(0.5, 0.5, 0.5)
 					collision.disabled = true
 					await get_tree().create_timer(vault_clip_time).timeout
 					collision.disabled = false
-					collision.scale = Vector3(1, 1, 1)
+				#Return to prevent jump
 				return
 
 		#Jumping
-		if is_on_floor() or (coyote and coyote_timer.time_left > 0):
+		if is_on_floor() or coyote:
 			if jump_debounce.time_left <= 0:
 				var speed_inverse = clamp(inverse_lerp(0, sprint_speed, velocity.length()), 0, 1)
 				var real_power = lerp(base_jump_power, max_jump_power, speed_inverse)
 				speed = Vector3(speed.x * jump_speed_multi, max(0, get_real_velocity().y) + real_power, speed.z * jump_speed_multi)
 				coyote = false
 				jump_buff = get_tree().create_timer(0)
-				jump_debounce = get_tree().create_timer(jump_vault_cool)
+				jump_debounce = get_tree().create_timer(jv_vault_cool)
 
 func set_input_dirs() -> void:
 	input_dir = Input.get_vector("left", "right", "up", "down").normalized()
 	dir = transform.basis * Vector3(input_dir.x, 0, input_dir.y)
 
 func FOV(delta:float) -> void:
-	clamped_velocity = min(velocity.length(), sprint_speed*2)
+	clamped_velocity = min(hv, sprint_speed*2)
 	var target_fov = base_FOV + FOV_change * clamped_velocity
 	cam.fov = lerp(cam.fov, target_fov, delta * 8.0)
 
@@ -211,18 +201,6 @@ func headbob(delta:float) -> void:
 	bob_time += delta * velocity.length()
 	spring_arm.transform.origin = smoothed_pos
 
-#UNUSED: Returns Slope Using GroundNormalRay
-func get_slope() -> Vector3:
-	var normal:Vector3
-	if ground_normal_ray.is_colliding():
-		normal = ground_normal_ray.get_collision_normal()
-	if not normal.is_equal_approx(Vector3.UP) and not normal.is_equal_approx(Vector3.UP):
-		var tangent = normal.cross(Vector3.DOWN)
-		var slope = normal.cross(tangent)
-		return abs(slope.normalized())
-	else:
-		return Vector3.ZERO
-
 #Coyote Timeout
 func coyote_timeout():
 	await coyote_timer.timeout
@@ -232,7 +210,10 @@ func coyote_timeout():
 func state() -> states:
 	#Ground Stats
 	if is_on_floor():
-		return states.ground
+		if Input.is_action_pressed("sprint") or auto_sprint:
+			return states.sprint if input_dir.dot(Vector2.UP) > 0 else states.walk
+		else:
+			return states.walk
 	else:
 		return states.air
 
@@ -240,21 +221,29 @@ func state() -> states:
 func update(delta:float) -> void:
 	velocity = speed + boost
 	if coyote and coyote_timer.time_left <= 0:
-		coyote_timer = get_tree().create_timer(coyote_amount)
-	coyote_timeout()
+		coyote_timer = get_tree().create_timer(coyote_time)
 	move_and_slide()
 
 	#Match States
 	match state():
 		#Walking
-		states.ground:
+		states.walk:
+			#Check if you should accel or deccel
 			var moving = true if dir.dot(get_real_velocity()) > 0 else false
-			speed = speed.move_toward(dir * (sprint_speed if sprinting else walk_speed), (ground_acel if moving else ground_decel) * delta)
-			#Coyote Time Reset
-			if speed.y > 0:
-				coyote = false
-			else:
-				coyote = true
+			#Moves player at walk speed
+			speed = speed.move_toward(dir * walk_speed, (ground_acel if moving else ground_decel) * delta)
+			#Coyote bool reset
+			coyote = false if speed.y > 0 else true
+
+		#Sprinting
+		states.sprint:
+			#Check if you should accel or deccel
+			var moving = true if dir.dot(get_real_velocity()) > 0 else false
+			#Moves player at sprint speed
+			speed = speed.move_toward(dir * sprint_speed, (ground_acel if moving else ground_decel) * delta)
+			#Coyote bool reset
+			coyote = false if speed.y > 0 else true
+
 		#Midair
 		states.air:
 			#Set up smooth horizontel air movement
@@ -267,4 +256,14 @@ func update(delta:float) -> void:
 			speed.x = goal.x
 			speed.z = goal.y
 
-#https://www.youtube.com/watch?v=sidnx5kXn1k
+#UNUSED: Returns Slope Using GroundNormalRay
+func get_slope() -> Vector3:
+	var normal:Vector3
+	if ground_normal_ray.is_colliding():
+		normal = ground_normal_ray.get_collision_normal()
+	if not normal.is_equal_approx(Vector3.UP) and not normal.is_equal_approx(Vector3.UP):
+		var tangent = normal.cross(Vector3.DOWN)
+		var slope = normal.cross(tangent)
+		return abs(slope.normalized())
+	else:
+		return Vector3.ZERO
