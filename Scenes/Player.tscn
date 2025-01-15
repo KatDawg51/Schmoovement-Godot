@@ -1,57 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://bln0w7toljkom"]
+[gd_scene load_steps=7 format=3 uid="uid://bln0w7toljkom"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerScripts/player.gd" id="1_5ls5g"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_r6n1w"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_g266e"]
-load_path = "res://.godot/imported/metal_plate_metal_1k.exr-244fda40afee1326b5ea184ae47bae61.bptc.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xpdi8"]
-load_path = "res://.godot/imported/metal_plate_ao_1k.jpg-2c8c03ab7d34355ab5d3a55f2acbdbe7.s3tc.ctex"
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yiv4a"]
-load_path = "res://.godot/imported/metal_plate_rough_1k.exr-da62cec57056dc0561519e5843f35699.bptc.ctex"
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uy6ko"]
-albedo_texture = SubResource("CompressedTexture2D_g266e")
-albedo_texture_force_srgb = true
-metallic = 1.0
-metallic_specular = 0.65
-metallic_texture = SubResource("CompressedTexture2D_g266e")
-roughness_texture = SubResource("CompressedTexture2D_yiv4a")
-normal_enabled = true
-ao_enabled = true
-ao_texture = SubResource("CompressedTexture2D_xpdi8")
-uv1_triplanar = true
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_aomg6"]
 margin = 0.0
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rpuj4"]
-lifetime_randomness = 0.1
-emission_shape_offset = Vector3(0, 0.5, 0)
-emission_shape_scale = Vector3(1, 0, 1)
-emission_shape = 6
-emission_ring_axis = Vector3(0, 1, 0)
-emission_ring_height = 1.0
-emission_ring_radius = 1.0
-emission_ring_inner_radius = 1.5
-inherit_velocity_ratio = 0.4
-gravity = Vector3(0, 0, 0)
-attractor_interaction_enabled = false
-turbulence_influence_min = 1.0
-turbulence_influence_max = 1.0
-turbulence_initial_displacement_min = -100.0
-turbulence_initial_displacement_max = 7.3
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jhy0d"]
-shading_mode = 0
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_tmb04"]
-material = SubResource("StandardMaterial3D_jhy0d")
-radius = 0.009
-height = 0.5
+radius = 0.4
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_hij18"]
 margin = 0.02
@@ -59,34 +12,10 @@ radius = 0.1
 
 [sub_resource type="Animation" id="Animation_i38u0"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Head/CamRig/SpringArm:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_qp4bt"]
 resource_name = "Vault"
 length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Head/CamRig/SpringArm:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.6),
-"transitions": PackedFloat32Array(-2, -2, 0.5),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(-0.349066, 0, 0), Vector3(0, 0, 0)]
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_q18j7"]
 _data = {
@@ -94,29 +23,20 @@ _data = {
 "Vault": SubResource("Animation_qp4bt")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "cam", "look_cast", "cam_rig", "spring_arm", "ground_normal_ray", "vault_cast", "collision", "anim_plr", "particles")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("head", "cam", "ground_normal_ray", "vault_cast", "collision", "anim_plr")]
 collision_layer = 2
 collision_mask = 3
 floor_constant_speed = true
 floor_max_angle = 1.309
 script = ExtResource("1_5ls5g")
 head = NodePath("Head")
-cam = NodePath("Head/CamRig/SpringArm/Cam")
-look_cast = NodePath("Head/CamRig/LookCast")
-cam_rig = NodePath("Head/CamRig")
-spring_arm = NodePath("Head/CamRig/SpringArm")
+cam = NodePath("Head/Cam")
 ground_normal_ray = NodePath("GroundNormalRay")
 vault_cast = NodePath("VaultCast")
 collision = NodePath("Collision")
 anim_plr = NodePath("AnimationPlayer")
-particles = NodePath("Head/CamRig/SpringArm/Cam/GPUParticles3D")
-
-[node name="Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-visible = false
-mesh = SubResource("CapsuleMesh_r6n1w")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_uy6ko")
+auto_sprint = false
+bob_amp = 2.0
 
 [node name="Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -125,40 +45,9 @@ shape = SubResource("CapsuleShape3D_aomg6")
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
-[node name="CamRig" type="Node3D" parent="Head"]
-
-[node name="LookCast" type="RayCast3D" parent="Head/CamRig"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0995743, 0)
-visible = false
-target_position = Vector3(0, 0, -2)
-
-[node name="SpringArm" type="SpringArm3D" parent="Head/CamRig"]
-spring_length = 0.0
-margin = 0.0
-
-[node name="Cam" type="Camera3D" parent="Head/CamRig/SpringArm"]
+[node name="Cam" type="Camera3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 7.45058e-09, 0, -7.45058e-09, 1, 0, 0, 0)
 doppler_tracking = 2
-
-[node name="GPUParticles3D" type="GPUParticles3D" parent="Head/CamRig/SpringArm/Cam"]
-transform = Transform3D(1, 0, 0, 0, -3.62608e-08, 1, 0, -1, -3.62608e-08, 0, 0, 0)
-cast_shadow = 0
-lifetime = 0.2
-explosiveness = 0.1
-process_material = SubResource("ParticleProcessMaterial_rpuj4")
-draw_pass_1 = SubResource("CapsuleMesh_tmb04")
-
-[node name="Buffer" type="Timer" parent="."]
-wait_time = 0.25
-one_shot = true
-
-[node name="Coyote" type="Timer" parent="."]
-wait_time = 0.2
-one_shot = true
-
-[node name="JumpCooldown" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
 
 [node name="GroundNormalRay" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.5)

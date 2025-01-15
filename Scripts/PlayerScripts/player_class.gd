@@ -4,14 +4,10 @@ class_name Player extends CharacterBody3D
 @export_group("Refrences")
 @export var head:Node3D
 @export var cam:Camera3D
-@export var look_cast:RayCast3D
-@export var cam_rig:Node3D
-@export var spring_arm:SpringArm3D
 @export var ground_normal_ray:RayCast3D
 @export var vault_cast:ShapeCast3D
 @export var collision:CollisionShape3D
 @export var anim_plr:AnimationPlayer
-@export var particles:GPUParticles3D
 #Timers
 @onready var jump_buff:SceneTreeTimer
 @onready var coyote_timer:SceneTreeTimer
@@ -38,12 +34,12 @@ class_name Player extends CharacterBody3D
 @export var vault_power_growth:float = 4
 @export var vault_boost:float = 4
 @export var vault_boost_decay:float = 2
-@export var vault_speed_multi:float = 01
+@export var vault_speed_multi:float = 1
 @export var vault_clip_time:float = 0.2
 @export var vault_boost_stack:bool = false
 @export_group("Both")
 @export var jv_vault_cool:float = 0.3
-@export var jv_buff_time:float = 0.1
+@export var jv_buff_time:float = 0.2
 @export_category("Physics")
 @export var ground_acel:float = 50
 @export var ground_decel:float = 60
@@ -65,23 +61,19 @@ var boost:Vector3
 #Direct input and input relative to character
 var input_dir:Vector2
 var dir:Vector3
-#Clamped Velocity for Headbob and FOV
-var clamped_velocity:float
-#Headbob Variables
+#Headbob vars
 var bob_time:float = 0.0
 var smoothed_amp:float
 var bob_pos:Vector3
-#Vault Boost Tracker
+#Vault momentum tracker
 var vault_momentum:float
-#Real Horizontel Velocity Length
+#Horizontal velocity
 var hori_vel:Vector2
-#Track if player is running
-var sprinting:bool
 
-#States Enum for "State Machine"
+#State Enum for the statemachine
 enum states {walk, sprint, air}
 
-#Lock Mouse
+#Setup timers and lock mouse
 func _ready() -> void:
 	#Lock Mouse
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -93,7 +85,7 @@ func _ready() -> void:
 	slide_time = get_tree().create_timer(0)
 
 
-#Inputs
+#Called every input
 func _input(event) -> void:
 	#Quitting
 	if event.is_action_pressed("quit"):
@@ -105,39 +97,31 @@ func _input(event) -> void:
 		head.rotate_x (deg_to_rad(-event.relative.y * sens))
 		head.rotation.x = clamp(head.rotation.x,deg_to_rad(-89),deg_to_rad(89))
 
-#Runs Ever Physics Frame
+#Runs every physics frame
 func _physics_process(delta:float) -> void:
 	#Run Functions
-
 	set_input_dirs()
 	headbob(delta)
 	update(delta)
 	FOV(delta)
 	jv(delta)
 
-	if round(hori_vel.length()) >= sprint_speed:
-		particles.emitting = true
-	else:
-		particles.emitting = false
-
-	speed_gui.text = str(roundf(hori_vel.length()))
-
-	particles.global_position.x = velocity.normalized().x * 0.3 + global_position.x
-	particles.global_position.z = velocity.normalized().z * 0.3 + global_position.z
-
-	#HV
+	#HV and gui
 	hori_vel = Vector2(velocity.x, velocity.z)
+	speed_gui.text = str(roundf(hori_vel.length()))
 
 #Jump vault
 func jv(delta:float):
-	#Gegagedigedagedago
+	#Update boost after vault
 	vault_momentum = move_toward(vault_momentum, 0, vault_boost_decay * delta)
-	boost = dir * vault_momentum
+	if vault_momentum:
+		boost = dir * vault_momentum
+
 	#Detection
 	if Input.is_action_just_pressed("jump"):
 		jump_buff = get_tree().create_timer(jv_buff_time)
 
-	#Jump or Vault
+	#Jump or vault
 	if jump_buff.time_left > 0:
 		#Vaulting
 		if vault_cast.is_colliding():
@@ -181,39 +165,37 @@ func set_input_dirs() -> void:
 	dir = transform.basis * Vector3(input_dir.x, 0, input_dir.y)
 
 func FOV(delta:float) -> void:
-	clamped_velocity = min(hori_vel.length(), sprint_speed*2)
+	var clamped_velocity = min(hori_vel.length(), sprint_speed*2)
 	var target_fov = base_FOV + FOV_change * clamped_velocity
-	cam.fov = lerp(cam.fov, target_fov, delta * 8.0)
+	cam.fov = lerp(cam.fov, target_fov, delta * 8)
 
 #Update Head Bob
 func headbob(delta:float) -> void:
 	#Smoothing The Sine Waves Position
-	var smoothed_pos:Vector3 = lerp(spring_arm.transform.origin, bob_pos * clamped_velocity * float(is_on_floor()) if dir else Vector3.ZERO, 0.01)
+	var smoothed_pos:Vector3 = lerp(cam.position, bob_pos if dir else Vector3.ZERO, 0.01)
 	#Sine Wave
-	smoothed_amp = move_toward(smoothed_amp, bob_amp/10, delta/2) * float(is_on_floor())
+	smoothed_amp = move_toward(smoothed_amp, bob_amp, delta) * float(is_on_floor())
 	bob_pos.y = sin(bob_time * bob_freq) * smoothed_amp
 	bob_pos.x = cos(bob_time * bob_freq/2) * smoothed_amp
 	#Process
-	bob_time += delta * velocity.length()
-	spring_arm.transform.origin = smoothed_pos
-
+	bob_time += delta * get_real_velocity().length()
+	cam.position = smoothed_pos
 
 #Returns The Current State
 func state() -> states:
-	#Ground Stats
+	#Ground States
 	if is_on_floor():
 		if Input.is_action_pressed("sprint") or auto_sprint:
 			return states.sprint if input_dir.dot(Vector2.UP) > 0 else states.walk
 		else:
 			return states.walk
+	#Midair States
 	else:
 		return states.air
 
 #Update Velocity
 func update(delta:float) -> void:
 	velocity = speed + boost
-	#if coyote and coyote_timer.time_left <= 0:
-		#coyote_timer = get_tree().create_timer(coyote_time)
 	move_and_slide()
 
 	#Match States
@@ -247,15 +229,3 @@ func update(delta:float) -> void:
 			#Air Strafing
 			speed.x = goal.x
 			speed.z = goal.y
-
-#UNUSED: Returns Slope Using GroundNormalRay
-func get_slope() -> Vector3:
-	var normal:Vector3
-	if ground_normal_ray.is_colliding():
-		normal = ground_normal_ray.get_collision_normal()
-	if not normal.is_equal_approx(Vector3.UP) and not normal.is_equal_approx(Vector3.UP):
-		var tangent = normal.cross(Vector3.DOWN)
-		var slope = normal.cross(tangent)
-		return abs(slope.normalized())
-	else:
-		return Vector3.ZERO
