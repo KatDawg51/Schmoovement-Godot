@@ -12,10 +12,34 @@ radius = 0.1
 
 [sub_resource type="Animation" id="Animation_i38u0"]
 length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Cam:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_qp4bt"]
 resource_name = "Vault"
-length = 0.6
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/Cam:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-0.349066, 0, 0), Vector3(0, 0, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_q18j7"]
 _data = {
@@ -31,11 +55,10 @@ floor_max_angle = 1.309
 script = ExtResource("1_gp0fo")
 head = NodePath("Head")
 cam = NodePath("Head/Cam")
-ground_normal_ray = NodePath("GroundNormalRay")
+ground_normal_ray = NodePath("")
 vault_cast = NodePath("VaultCast")
 collision = NodePath("Collision")
 anim_plr = NodePath("AnimationPlayer")
-base_FOV = 90.0
 
 [node name="Collision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -45,13 +68,7 @@ shape = SubResource("CapsuleShape3D_aomg6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 
 [node name="Cam" type="Camera3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 7.45058e-09, 0, -7.45058e-09, 1, 0, 0, 0)
 doppler_tracking = 2
-
-[node name="GroundNormalRay" type="RayCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.5)
-target_position = Vector3(0, -100, 0)
-debug_shape_thickness = 5
 
 [node name="VaultCast" type="ShapeCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, -1)
