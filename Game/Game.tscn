@@ -1,0 +1,170 @@
+[gd_scene load_steps=9 format=3 uid="uid://db2h3t17k37pe"]
+
+[ext_resource type="Script" path="res://Game/game.gd" id="1_5i284"]
+[ext_resource type="Material" uid="uid://lc1lupq3re2x" path="res://Textures/Materials/Metal.tres" id="2_epa8y"]
+[ext_resource type="Texture2D" uid="uid://cyymbqe2ppixd" path="res://Textures/HDRI/HDRI.hdr" id="3_fuvyv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_u1ld4"]
+font_size = 100
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_7hap0"]
+panorama = ExtResource("3_fuvyv")
+energy_multiplier = 0.5
+
+[sub_resource type="Sky" id="Sky_305cb"]
+resource_local_to_scene = true
+sky_material = SubResource("PanoramaSkyMaterial_7hap0")
+process_mode = 3
+
+[sub_resource type="Environment" id="Environment_g2h84"]
+background_mode = 2
+sky = SubResource("Sky_305cb")
+ambient_light_source = 3
+ambient_light_color = Color(0.681919, 0.799114, 0.984765, 1)
+ambient_light_sky_contribution = 0.5
+ambient_light_energy = 0.8
+reflected_light_source = 2
+tonemap_mode = 3
+tonemap_white = 2.0
+ssao_radius = 2.0
+ssao_intensity = 4.0
+ssao_power = 2.0
+ssao_detail = 1.0
+ssil_intensity = 2.0
+glow_enabled = true
+glow_bloom = 0.2
+fog_light_color = Color(0.000213845, 0.0182105, 0.190645, 1)
+fog_density = 0.0
+fog_depth_curve = 7.46426
+fog_depth_begin = -1773.0
+fog_depth_end = 2520.0
+volumetric_fog_density = 0.01
+volumetric_fog_length = 30.0
+volumetric_fog_ambient_inject = 0.5
+volumetric_fog_sky_affect = 0.5
+
+[sub_resource type="PrismMesh" id="PrismMesh_2ow7u"]
+left_to_right = 0.0
+size = Vector3(5, 3, 6)
+
+[node name="Game" type="Node"]
+script = ExtResource("1_5i284")
+
+[node name="GUI" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Speed" type="Label" parent="GUI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -140.0
+offset_right = 154.0
+grow_vertical = 0
+text = "0/0"
+label_settings = SubResource("LabelSettings_u1ld4")
+
+[node name="World3D" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Map" type="Node3D" parent="World3D"]
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="World3D/Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 30.4824)
+use_collision = true
+size = Vector3(60, 5, 1)
+material = ExtResource("2_epa8y")
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="World3D/Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -29.5)
+use_collision = true
+size = Vector3(60, 3, 1)
+material = ExtResource("2_epa8y")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="World3D/Map"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -30.5, 1.5, 0.482397)
+use_collision = true
+size = Vector3(61, 4, 1)
+material = ExtResource("2_epa8y")
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="World3D/Map"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 30.5, 1.5, 0.482397)
+use_collision = true
+size = Vector3(61, 4, 1)
+material = ExtResource("2_epa8y")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="World3D/Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 2.25, -15)
+use_collision = true
+size = Vector3(4, 3.5, 4)
+material = ExtResource("2_epa8y")
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="World3D/Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12.016, 3.42833, -15.1478)
+use_collision = true
+size = Vector3(4, 6, 4)
+material = ExtResource("2_epa8y")
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="World3D/Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 1, -20.5)
+use_collision = true
+size = Vector3(4, 1, 4)
+material = ExtResource("2_epa8y")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="World3D/Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5, 4, -9)
+use_collision = true
+size = Vector3(4, 7, 4)
+material = ExtResource("2_epa8y")
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="World3D/Map"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12, 10, -5)
+use_collision = true
+size = Vector3(4, 7, 4)
+material = ExtResource("2_epa8y")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="World3D/Map"]
+use_collision = true
+size = Vector3(60, 1, 60)
+material = ExtResource("2_epa8y")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="World3D/Map"]
+environment = SubResource("Environment_g2h84")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World3D/Map"]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="World3D/Map"]
+transform = Transform3D(0.5, 0.612522, -0.612223, 0, 0.706934, 0.70728, 0.866025, -0.35364, 0.353467, 6, 8.5, 3)
+use_collision = true
+size = Vector3(7, 6, 0.5)
+material = ExtResource("2_epa8y")
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="World3D/Map"]
+transform = Transform3D(1, -6.18324e-08, 1.49225e-07, 1.49225e-07, -4.37114e-08, -1, 6.18324e-08, 1, -4.37114e-08, -2, 4, 22)
+use_collision = true
+size = Vector3(6, 16, 1)
+material = ExtResource("2_epa8y")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="World3D/Map"]
+transform = Transform3D(-0.00198638, -0.000283646, -1.00132, -0.00174111, 1.00132, -0.000280194, 1.00132, 0.00174054, -0.00198687, 0.00297957, 2.00261, -26.502)
+use_collision = true
+mesh = SubResource("PrismMesh_2ow7u")
+material = ExtResource("2_epa8y")
+
+[node name="CSGMesh3D2" type="CSGMesh3D" parent="World3D/Map"]
+transform = Transform3D(0.00198367, -0.000373919, 0.999998, 0.00173881, 1.32, 0.000279821, -0.999997, 0.00229449, 0.00198416, -2, 2.5, 11.5)
+use_collision = true
+mesh = SubResource("PrismMesh_2ow7u")
+material = ExtResource("2_epa8y")

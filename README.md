@@ -7,7 +7,6 @@ I made this little movement system based on: Untitled Tag Game (Roblox), and Bad
 Features:
 1. A robust vaulting system
 2. Acceleration and deceleration
-3. 3D GPU particle speed streaks
 4. Test map (updated)
 5. Smooth head bob
 6. FOV alterations based on speed
@@ -16,6 +15,7 @@ Features:
 9. Coyote time
 10. Horizontal velocity speedometer (bottom left)
 11. Sprinting and autosprinting
+12. Jump cooldown
 
 The repository is public and opensource, so you can use it however you want.
 If you end up adding nice features/fixes to your version, consider opening a pull request for my branch <3.

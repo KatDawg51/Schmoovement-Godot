@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="Schmoovement"
-run/main_scene="res://Scenes/Game.tscn"
+run/main_scene="res://Game/Game.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://Sprites/icon.svg"
 
 [autoload]
 
-globals="*res://Scripts/Game/globals.gd"
+globals="*res://Game/globals.gd"
 
 [display]
 
@@ -28,11 +28,9 @@ window/size/mode=3
 [file_customization]
 
 folder_colors={
-"res://Materials/": "green",
-"res://Models/": "yellow",
-"res://Scenes/": "red",
-"res://Scripts/": "blue",
-"res://Sprites/": "purple"
+"res://Game/": "blue",
+"res://Player/": "red",
+"res://Textures/": "yellow"
 }
 
 [filesystem]
