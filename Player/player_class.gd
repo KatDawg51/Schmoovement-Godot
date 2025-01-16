@@ -36,7 +36,7 @@ class_name Player extends CharacterBody3D
 @export_group("Vault")
 @export var vault_power:float = 8
 @export var vault_power_growth:float = 2
-@export var vault_boost:float = 4
+@export var vault_boost:float = 5
 @export var vault_boost_decay:float = 2
 @export var vault_speed_multi:float = 0.8
 @export var vault_clip_time:float = 0.25
@@ -165,7 +165,7 @@ func set_input_dirs() -> void:
 func FOV() -> void:
 	var clamped_velocity = min(hori_vel.length(), sprint_speed*2)
 	var target_fov = base_FOV + FOV_change * clamped_velocity
-	cam.fov = lerp(cam.fov, target_fov, 0.01)
+	cam.fov = lerp(cam.fov, target_fov, 0.05)
 
 #Update Head Bob
 func headbob(delta:float) -> void:
