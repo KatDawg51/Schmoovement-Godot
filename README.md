@@ -25,7 +25,7 @@ This is my first repository, so if you find any issues DM me or open an issue in
 *The following links are for a showcase video!*
 
 **Mega Link (Slow):**
-https://mega.nz/file/6aZR2ZjY#sDnhSXXcCtRWns6O7cFowkrcupDq2OaRNrni0rXAr6I
+https://mega.nz/file/eTo1gZAY#Kg5ThP4WsSkX4WQmVIADoIzXyWvtLm3CSbz5Cptxrqg
 
 **Google Drive Link (Needs Account):**
-https://drive.google.com/file/d/16kShbBMf0SktkK92lA-Hd3SrjDy8VMFX/view
+https://drive.google.com/file/d/1K9iucg4y8MFtZQ2vknoJJeIG3eaEXc1g/view?usp=drive_link
