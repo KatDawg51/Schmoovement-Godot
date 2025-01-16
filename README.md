@@ -28,4 +28,4 @@ This is my first repository, so if you find any issues DM me or open an issue in
 https://mega.nz/file/eTo1gZAY#Kg5ThP4WsSkX4WQmVIADoIzXyWvtLm3CSbz5Cptxrqg
 
 **Google Drive Link (Needs Account):**
-https://drive.google.com/file/d/16kShbBMf0SktkK92lA-Hd3SrjDy8VMFX/view?usp=drive_link
+https://drive.google.com/file/d/1K9iucg4y8MFtZQ2vknoJJeIG3eaEXc1g/view?usp=drive_link
