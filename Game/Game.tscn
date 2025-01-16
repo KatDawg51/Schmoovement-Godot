@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://db2h3t17k37pe"]
+[gd_scene load_steps=10 format=3 uid="uid://db2h3t17k37pe"]
 
 [ext_resource type="Script" path="res://Game/game.gd" id="1_5i284"]
 [ext_resource type="Material" uid="uid://lc1lupq3re2x" path="res://Textures/Materials/Metal.tres" id="2_epa8y"]
 [ext_resource type="Texture2D" uid="uid://cyymbqe2ppixd" path="res://Textures/HDRI/HDRI.hdr" id="3_fuvyv"]
+[ext_resource type="Script" path="res://Game/temporal.gd" id="4_p3urb"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_u1ld4"]
 font_size = 100
@@ -168,3 +169,6 @@ transform = Transform3D(0.00198367, -0.000373919, 0.999998, 0.00173881, 1.32, 0.
 use_collision = true
 mesh = SubResource("PrismMesh_2ow7u")
 material = ExtResource("2_epa8y")
+
+[node name="Temporal" type="Node" parent="."]
+script = ExtResource("4_p3urb")

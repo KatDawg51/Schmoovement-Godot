@@ -11,16 +11,21 @@ class_name Player extends CharacterBody3D
 @onready var jump_buff:SceneTreeTimer
 @onready var coyote_timer:SceneTreeTimer
 @onready var jump_debounce:SceneTreeTimer
-@onready var slide_time:SceneTreeTimer
 #Speed GUI
 @onready var speed_gui = globals.game.gui.get_child(0)
 
 ##Stats
-@export_category("Speed")
+@export_category("Ground")
 @export var auto_sprint:bool = true
 @export var sprint_speed:float = 10
 @export var walk_speed:float = 8
+@export var ground_acel:float = 50
+@export var ground_decel:float = 60
+@export_category("Midair")
 @export var air_speed:float = 8
+@export var air_control:float = 25
+@export var fall_speed:float = 50
+@export var gravity:float = 30
 @export_category("Jump and Vault")
 @export_group("Jump")
 @export var base_jump_power:float = 8
@@ -39,12 +44,6 @@ class_name Player extends CharacterBody3D
 @export_group("Both")
 @export var jv_vault_cool:float = 0.3
 @export var jv_buff_time:float = 0.1
-@export_category("Physics")
-@export var ground_acel:float = 50
-@export var ground_decel:float = 60
-@export var air_control:float = 25
-@export var fall_speed:float = 50
-@export var gravity:float = 30
 @export_category("Camera")
 @export var sens := 0.02
 @export_group("Bob")
@@ -81,7 +80,6 @@ func _ready() -> void:
 	jump_buff = get_tree().create_timer(0)
 	coyote_timer = get_tree().create_timer(0)
 	jump_debounce = get_tree().create_timer(0)
-	slide_time = get_tree().create_timer(0)
 
 
 #Called every input
@@ -102,8 +100,8 @@ func _physics_process(delta:float) -> void:
 	set_input_dirs()
 	headbob(delta)
 	update(delta)
-	FOV(delta)
 	jv(delta)
+	FOV()
 
 	#HV and gui
 	hori_vel = Vector2(velocity.x, velocity.z)
@@ -164,10 +162,10 @@ func set_input_dirs() -> void:
 	input_dir = Input.get_vector("left", "right", "up", "down").normalized()
 	dir = transform.basis * Vector3(input_dir.x, 0, input_dir.y)
 
-func FOV(delta:float) -> void:
+func FOV() -> void:
 	var clamped_velocity = min(hori_vel.length(), sprint_speed*2)
 	var target_fov = base_FOV + FOV_change * clamped_velocity
-	cam.fov = lerp(cam.fov, target_fov, delta * 8)
+	cam.fov = lerp(cam.fov, target_fov, 0.01)
 
 #Update Head Bob
 func headbob(delta:float) -> void:
