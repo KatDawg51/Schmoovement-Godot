@@ -1,6 +1,6 @@
 class_name Player extends CharacterBody3D
 
-##Refrences
+#Refrences
 @export_group("Refrences")
 @export var head:Node3D
 @export var cam:Camera3D
@@ -12,9 +12,9 @@ class_name Player extends CharacterBody3D
 @onready var coyote_timer:SceneTreeTimer
 @onready var jump_debounce:SceneTreeTimer
 #Speed GUI
-@onready var speed_gui = globals.game.gui.get_child(0)
+@onready var speed_gui:Label = globals.game.gui.get_child(0)
 
-##Stats
+#Stats
 @export_category("Ground")
 @export var auto_sprint:bool = true
 @export var sprint_speed:float = 10

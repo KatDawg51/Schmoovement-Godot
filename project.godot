@@ -28,6 +28,7 @@ window/size/mode=3
 [file_customization]
 
 folder_colors={
+"res://GUI/": "green",
 "res://Game/": "blue",
 "res://Player/": "red",
 "res://Textures/": "yellow"
